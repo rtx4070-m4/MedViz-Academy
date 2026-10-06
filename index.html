@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedViz Academy — Version 6 Ultimate Research + AI</title>
+<style>
+:root{
+  --navy:#071a3d; --blue:#2563eb; --cyan:#22d3ee; --purple:#7c3aed; --pink:#ec4899;
+  --green:#10b981; --orange:#f59e0b; --red:#ef4444; --ink:#172033; --muted:#64748b;
+  --bg:#f5f8ff; --card:#ffffff; --line:#dbe5f5; --shadow:0 12px 35px rgba(20,44,90,.10);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:
+ radial-gradient(circle at 10% 0%,#dff7ff 0,transparent 26%),
+ radial-gradient(circle at 90% 8%,#f1ddff 0,transparent 24%),var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1500px;margin:auto;padding:22px}
+.hero{background:linear-gradient(135deg,#071a3d,#173b86 55%,#6d28d9);color:white;border-radius:26px;padding:26px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.hero:after{content:"";position:absolute;width:240px;height:240px;border:2px solid rgba(255,255,255,.12);border-radius:50%;right:40px;top:-90px;box-shadow:0 0 0 35px rgba(255,255,255,.04),0 0 0 70px rgba(255,255,255,.025)}
+.brand{display:flex;gap:16px;align-items:center;position:relative;z-index:1}
+.avatar{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,#fff,#c9f7ff);display:grid;place-items:center;color:#173b86;font-size:31px;box-shadow:0 8px 25px rgba(0,0,0,.2)}
+.hero h1{margin:0;font-size:clamp(26px,4vw,44px);letter-spacing:-1.5px}
+.hero p{margin:8px 0 0;color:#dbeafe;max-width:900px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{padding:7px 11px;border-radius:999px;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.16);font-size:12px}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:18px;margin-top:18px}
+.sidebar{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:22px;padding:14px;box-shadow:var(--shadow);align-self:start;position:sticky;top:12px}
+.side-title{font-weight:800;padding:10px 12px 12px;color:#071a3d}
+.nav{display:grid;gap:6px}
+.nav button{text-align:left;border:0;background:transparent;padding:11px 12px;border-radius:12px;color:#40516d;font-weight:700}
+.nav button:hover,.nav button.active{background:#eaf1ff;color:#1d4ed8}
+.main{min-width:0}
+.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+.panel h2{margin:0 0 7px;color:#10265a;font-size:22px}
+.panel h3{margin:0 0 6px}
+.sub{color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:16px;padding:15px;background:#fff}
+.span-4{grid-column:span 4}.span-6{grid-column:span 6}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+.kpi{font-size:28px;font-weight:900;color:#12377d}.kpi-label{font-size:12px;color:var(--muted)}
+.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+label{font-size:12px;font-weight:800;color:#42516b;display:block;margin-bottom:5px}
+select,input[type=file],textarea{width:100%;border:1px solid #cbd8ee;border-radius:11px;padding:10px;background:#fff;color:#172033}
+textarea{min-height:90px;resize:vertical}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:11px;padding:10px 14px;font-weight:800}
+.primary{background:#2563eb;color:white}.secondary{background:#eef4ff;color:#2452a6}.success{background:#e9fbf4;color:#087a58}.dark{background:#0b1f47;color:white}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin-bottom:14px}
+.tab{border:1px solid var(--line);background:white;padding:9px 12px;border-radius:999px;font-weight:800;white-space:nowrap}
+.tab.active{background:#10265a;color:white;border-color:#10265a}
+.chartbox{min-height:320px;display:grid;place-items:center;background:linear-gradient(180deg,#fbfdff,#f5f8ff);border:1px solid #e2e9f5;border-radius:16px;padding:12px;overflow:hidden}
+svg{width:100%;height:auto;min-height:280px}
+.interpret{border-left:5px solid #7c3aed;background:#f6f2ff;padding:14px;border-radius:12px;line-height:1.55}
+.callout{padding:14px;border-radius:14px;background:#fff7df;border:1px solid #f9df8a}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;align-items:center}
+.flow div{padding:13px;border-radius:14px;text-align:center;font-weight:800;background:#eef5ff;border:1px solid #d5e2fb}
+.arrow{text-align:center;color:#7c3aed;font-weight:900}
+.concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.concept{border:1px solid var(--line);border-radius:15px;padding:14px;display:flex;gap:12px;align-items:flex-start}
+.num{min-width:34px;height:34px;border-radius:12px;background:#10265a;color:white;display:grid;place-items:center;font-weight:900}
+.concept p{margin:4px 0 0;color:var(--muted);font-size:13px}
+.mini{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+footer{text-align:center;color:#6b7b96;font-size:12px;padding:10px 0 25px}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.sidebar{position:static}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.span-4,.span-6,.span-8{grid-column:span 6}}
+@media(max-width:650px){.app{padding:10px}.panel{padding:14px}.controls{grid-template-columns:1fr}.span-4,.span-6,.span-8,.span-12{grid-column:span 12}.concepts{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg)}.hero{padding:20px}}
+@media(prefers-reduced-motion:no-preference){
+ .hero{animation:floatIn .55s ease both}.panel{animation:rise .45s ease both}
+ @keyframes floatIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+ @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+
+.data-quality{margin-top:14px;border:1px solid #dbe5f5;border-radius:16px;padding:15px;background:linear-gradient(135deg,#fbfdff,#f4f8ff)}
+.quality-row{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}
+.progress{height:10px;border-radius:99px;background:#e5edf9;overflow:hidden}
+.progress > div{height:100%;width:0;background:linear-gradient(90deg,#10b981,#2563eb,#7c3aed);transition:width .45s ease}
+.variable-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}
+.variable-card{border:1px solid #dbe5f5;border-radius:14px;padding:13px;background:white}
+.variable-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.type-pill{font-size:10px;font-weight:900;padding:4px 7px;border-radius:999px;background:#eef4ff;color:#2452a6}
+.variable-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:10px}
+.variable-stat{background:#f7f9fd;border-radius:9px;padding:7px}
+.variable-stat b{display:block;font-size:13px}
+.variable-stat span{font-size:10px;color:#64748b}
+.issue{padding:9px 11px;border-radius:10px;background:#fff7df;border:1px solid #f4df9a;margin-top:7px;font-size:12px}
+.good{padding:9px 11px;border-radius:10px;background:#e9fbf4;border:1px solid #bdebd9;margin-top:7px;font-size:12px}
+.dropzone{border:2px dashed #b9c9e6;border-radius:14px;padding:18px;text-align:center;background:#f8fbff;transition:.2s}
+.dropzone.drag{border-color:#2563eb;background:#eef5ff}
+@media(max-width:900px){.variable-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.variable-grid{grid-template-columns:1fr}}
+
+
+/* Version 3 — Healthcare Analytics */
+.analytics-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.analytics-tab{border:1px solid #dbe5f5;background:#fff;border-radius:999px;padding:9px 12px;font-weight:800;color:#40516d}
+.analytics-tab.active{background:#10265a;color:#fff;border-color:#10265a}
+.kpi-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.health-kpi{border:1px solid #dbe5f5;border-radius:15px;padding:14px;background:linear-gradient(145deg,#fff,#f7faff)}
+.health-kpi .icon{font-size:22px}
+.health-kpi .value{font-size:24px;font-weight:950;color:#12377d;margin-top:5px}
+.health-kpi .label{font-size:11px;color:#64748b;font-weight:800}
+.health-kpi .delta{font-size:11px;margin-top:5px}
+.analytics-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.metric-box{border:1px solid #dbe5f5;border-radius:14px;padding:13px;background:#fbfdff}
+.metric-value{font-size:22px;font-weight:900;color:#173b86}
+.metric-label{font-size:11px;color:#64748b}
+.result-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.result-table th,.result-table td{border-bottom:1px solid #e6edf7;padding:9px;text-align:left}
+.result-table th{background:#f4f7fc;color:#40516d}
+.alert-good{background:#e9fbf4;border:1px solid #bdebd9;border-radius:12px;padding:12px}
+.alert-warn{background:#fff7df;border:1px solid #f4df9a;border-radius:12px;padding:12px}
+.alert-danger{background:#fff0f0;border:1px solid #fecaca;border-radius:12px;padding:12px}
+.matrix{display:grid;grid-template-columns:1fr 1fr;max-width:520px;margin:12px auto;gap:8px}
+.matrix-cell{padding:22px 12px;text-align:center;border-radius:13px;border:1px solid #dbe5f5;background:#f7faff}
+.matrix-cell strong{display:block;font-size:25px;color:#12377d}
+.roc-box{background:#fbfdff;border:1px solid #e2e9f5;border-radius:15px;padding:10px}
+.roc-box svg{min-height:320px}
+.detector-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat-note{font-size:11px;color:#64748b;line-height:1.45}
+.section-note{padding:11px 13px;border-left:4px solid #7c3aed;background:#f6f2ff;border-radius:10px;font-size:12px}
+@media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.analytics-controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.analytics-controls,.detector-grid{grid-template-columns:1fr}}
+
+
+/* ========================= Version 4 — Insight Engine ========================= */
+.insight-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.insight-tab{border:1px solid #dbe5f5;background:#fff;border-radius:999px;padding:9px 12px;font-weight:800;color:#40516d;cursor:pointer}
+.insight-tab.active{background:#10265a;color:#fff;border-color:#10265a}
+.insight-view.hidden{display:none!important}
+.insight-hero{background:linear-gradient(135deg,#eef5ff,#f8f4ff);border:1px solid #dbe5f5;border-radius:18px;padding:16px;margin-bottom:14px}
+.insight-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.insight-card{border:1px solid #dbe5f5;border-radius:15px;background:#fff;padding:14px}
+.insight-card .big{font-size:26px;font-weight:950;color:#12377d}
+.insight-card .small{font-size:11px;color:#64748b;font-weight:700}
+.finding{border:1px solid #e2e9f5;border-radius:14px;padding:13px;margin:9px 0;background:#fbfdff}
+.finding.good{border-left:5px solid #16a34a}
+.finding.warn{border-left:5px solid #f59e0b}
+.finding.info{border-left:5px solid #2563eb}
+.finding.danger{border-left:5px solid #dc2626}
+.finding-title{font-weight:900;color:#173b86}
+.finding-text{font-size:12px;line-height:1.5;margin-top:5px}
+.doctor-score{font-size:34px;font-weight:950;color:#12377d}
+.reason-list{margin:8px 0 0 18px;font-size:12px;line-height:1.6}
+.narrative-box{background:#f8fafc;border:1px solid #dbe5f5;border-radius:15px;padding:17px;line-height:1.7;font-size:13px}
+.filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.filter-chip{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filter-chip select,.filter-chip input{width:100%}
+.drill-layout{display:grid;grid-template-columns:1fr 2fr;gap:14px}
+.tree-node{border:1px solid #dbe5f5;border-radius:11px;padding:9px;margin:6px 0;background:#fff;cursor:pointer;font-size:12px}
+.tree-node:hover{background:#f4f7fc}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.change-arrow{font-size:22px;font-weight:900;text-align:center;padding:14px;color:#173b86}
+.insight-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.insight-table th,.insight-table td{border-bottom:1px solid #e6edf7;padding:8px;text-align:left}
+.insight-table th{background:#f4f7fc;color:#40516d}
+@media(max-width:1000px){.insight-grid{grid-template-columns:1fr 1fr}.filter-grid{grid-template-columns:1fr 1fr}.drill-layout{grid-template-columns:1fr}}
+@media(max-width:650px){.insight-grid,.filter-grid,.compare-box{grid-template-columns:1fr}}
+
+
+/* ========================= Version 5 — Research + AI Tutor ========================= */
+.research-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.research-tab{border:1px solid #dbe5f5;background:#fff;border-radius:999px;padding:9px 12px;font-weight:800;color:#40516d;cursor:pointer}
+.research-tab.active{background:#10265a;color:#fff;border-color:#10265a}
+.research-view.hidden{display:none!important}
+.research-hero{background:linear-gradient(135deg,#eef5ff,#f9f2ff 60%,#f0fdf4);border:1px solid #dbe5f5;border-radius:18px;padding:17px;margin-bottom:14px}
+.ai-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ai-card{border:1px solid #dbe5f5;border-radius:15px;background:#fff;padding:14px}
+.ai-card h3{color:#173b86}
+.ai-answer{border:1px solid #dbe5f5;border-radius:15px;padding:16px;background:#fbfdff;line-height:1.65;font-size:13px}
+.exam-q{border:1px solid #dbe5f5;border-radius:15px;padding:15px;margin:10px 0;background:#fff}
+.exam-q.correct{border-left:5px solid #16a34a}.exam-q.wrong{border-left:5px solid #dc2626}
+.option{display:block;margin:7px 0;padding:9px;border:1px solid #e2e9f5;border-radius:10px;cursor:pointer}
+.option:hover{background:#f4f7fc}.option input{margin-right:8px}
+.score-big{font-size:38px;font-weight:950;color:#12377d}
+.report-preview{background:#fff;border:1px solid #dbe5f5;border-radius:15px;padding:22px;line-height:1.7}
+.report-preview h1,.report-preview h2,.report-preview h3{color:#10265a}
+.story-step{border-left:4px solid #7c3aed;padding:10px 13px;margin:9px 0;background:#f8f5ff;border-radius:9px}
+.chat-box{height:360px;overflow:auto;border:1px solid #dbe5f5;border-radius:15px;padding:13px;background:#f8fafc}
+.chat-msg{max-width:88%;padding:10px 12px;border-radius:13px;margin:7px 0;font-size:13px;line-height:1.5}
+.chat-user{margin-left:auto;background:#e8f0ff}.chat-ai{background:#fff;border:1px solid #e2e9f5}
+.export-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:1000px){.ai-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){.ai-grid{grid-template-columns:1fr}}
+
+
+/* ===== Version 6 ===== */
+#v6 input[type=text]{width:100%;border:1px solid #cbd8ee;border-radius:11px;padding:10px;background:#fff;color:#172033}
+.v6head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap;margin:6px 0 10px}.v6head h3{margin:0;color:#173b86}
+.v6req{background:#fff3cd;color:#8a5a00;border-radius:6px;padding:1px 6px;font-size:12px;font-weight:700}
+.v6warn{display:inline-block;background:#fff7df;border:1px solid #f4df9a;border-radius:8px;padding:2px 6px;font-size:11px;margin:1px}
+.v6empty{text-align:center;padding:34px 12px;color:#64748b}
+.v6road{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:12px 0}.v6road button{border:1px solid #dbe5f5;background:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800;color:#2452a6}.v6road span{color:#7c3aed;font-weight:900}
+.v6chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.v6chip{border:1px solid #dbe5f5;background:#f6f2ff;border-radius:999px;padding:6px 10px;font-size:12px}
+.research-tab.done::after{content:" ✓";color:#10b981}
+.v6side{margin:12px 6px 4px;padding:10px;border:1px solid var(--line);border-radius:14px;font-size:12px}#v6prog{font-family:monospace;margin:6px 0}
+.v6crumb{font-size:12px;color:var(--muted);margin:0 0 8px}
+#v6toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);background:#10265a;color:#fff;padding:10px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:99}#v6toast.show{opacity:1;transform:translateX(-50%)}
+#v6dark{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:7px 11px;font-size:12px}
+:focus-visible{outline:3px solid #7c3aed;outline-offset:2px}
+@media(max-width:1050px){.nav{display:flex;overflow-x:auto}.nav button{white-space:nowrap}}
+body.dark{--bg:#0b1220;--line:#243250;--ink:#e6edf7;--muted:#9fb0cc;background:#0b1220;color:#e6edf7}
+body.dark :is(.panel,.card,.sidebar,.ai-card,.variable-card,.metric-box,.insight-card,.health-kpi,.concept,.exam-q,.report-preview,.tab,.analytics-tab,.insight-tab,.research-tab,.v6road button,.chat-msg,.finding,.option){background:#111a2e!important;color:#e6edf7;border-color:#243250}
+body.dark :is(.panel h2,.panel h3,.side-title,.kpi,.metric-value,.v6head h3,.ai-card h3){color:#cfe0ff}
+body.dark :is(select,textarea,input,#v6 input[type=text]){background:#0b1220!important;color:#e6edf7!important;border-color:#243250!important}
+body.dark :is(.ai-answer,.chat-box,.narrative-box,.data-quality,.interpret,.callout,.issue,.good){background:#0f172a!important;color:#e6edf7;border-color:#243250}
+body.dark :is(.nav button,.sub,.mini){color:#b8c7e3}body.dark .result-table th{background:#16213a;color:#cfe0ff}body.dark .result-table td,body.dark .result-table th{border-color:#243250}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<div id="v6toast" role="status" aria-live="polite"></div>
+<header class="hero">
+  <div class="brand">
+    <div class="avatar">🩺</div>
+    <div>
+      <h1>MEDVIZ ACADEMY</h1><div style="font-weight:800;color:#c9f7ff;margin-top:4px">Ultimate Healthcare Research + AI Tutor</div>
+      <p>From raw healthcare data to analysis, research insight, examination mastery and defensible scientific communication.</p>
+    </div>
+  </div>
+  <div class="badges"><span class="badge">🏥 Healthcare</span><span class="badge">📊 Analytics</span><span class="badge">🧪 Biostatistics</span><span class="badge">🔬 Research</span><span class="badge">🎓 Exam Tutor</span><span class="badge">🎤 Viva Simulator</span><span class="badge">🤖 AI-style Analyst</span><span class="badge">📄 Report Builder</span><button id="v6dark" aria-label="Toggle dark mode">🌙 Dark mode</button></div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="side-title">Learning Map</div>
+  <nav class="nav">
+    <button data-section="v6">🚀 Ultimate Research + AI</button>
+    <button class="active" data-section="lab">🧪 Data → Insight Lab</button>
+    <button data-section="guide">🧭 Visual Decision Guide</button>
+    <button data-section="analytics">🏥 Healthcare Analytics</button>
+    <button data-section="insights">🧠 Insight Engine</button>
+     <button data-section="research">🎓 Research + AI Tutor</button>
+    <button data-section="concepts">📚 Every Concept</button>
+    <button data-section="mistakes">⚠️ Common Mistakes</button>
+    <button data-section="workflow">🚀 Golden Workflow</button>
+  </nav>
+  <div class="v6side"><b>Learning Progress</b><div id="v6prog" aria-live="polite"></div><div class="progress"><div id="v6progbar"></div></div><div style="margin-top:8px">🔒 Your dataset stays in this browser session.</div></div>
+</aside>
+
+<main class="main">
+<section class="panel" id="lab">
+  <h2>🧪 Data → Insight Lab</h2>
+  <div class="sub">Upload a CSV, paste CSV text, or use the built-in hospital example. The app calculates summaries and generates a plain-language interpretation.</div>
+  <div class="grid" style="margin-top:14px">
+    <div class="card span-8">
+      <h3>1. Bring your healthcare data</h3>
+      <div class="controls">
+        <div style="grid-column:span 2"><label for="file">CSV file</label><input id="file" type="file" accept=".csv,text/csv"></div>
+        <div style="grid-column:span 3"><label for="paste">Or paste CSV</label><textarea id="paste" placeholder="Date,Department,Cases,WaitTime,ReadmissionRate&#10;2026-01-01,Cardiology,120,42,8.2"></textarea></div>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="loadPaste">Use pasted CSV</button><button class="btn secondary" id="sample">Load hospital sample</button></div>
+      <div id="dataStatus" class="mini" style="margin-top:9px" aria-live="polite">No data loaded yet.</div>
+    </div>
+    <div class="card span-4">
+      <h3>Quick data health</h3>
+      <div class="grid" style="margin-top:10px">
+        <div class="card span-6"><div class="kpi" id="rowsKpi">0</div><div class="kpi-label">Rows</div></div>
+        <div class="card span-6"><div class="kpi" id="colsKpi">0</div><div class="kpi-label">Columns</div></div>
+      </div>
+      <div class="mini" id="typeKpi" style="margin-top:9px">Load data to detect numeric, categorical and date-like fields.</div>
+    </div>
+  </div>
+
+
+  <div class="panel" style="margin-top:18px;background:linear-gradient(135deg,#f8fbff,#ffffff)">
+    <h2>🔍 Step 1 — Automatic Data Intelligence</h2>
+    <div class="sub">Before choosing a chart, MedViz examines the dataset: structure, variable types, missing values, duplicates, ranges and basic data quality.</div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="card span-4">
+        <h3>📊 Dataset overview</h3>
+        <div class="grid" style="margin-top:10px">
+          <div class="card span-6"><div class="kpi" id="profileRows">0</div><div class="kpi-label">Rows</div></div>
+          <div class="card span-6"><div class="kpi" id="profileCols">0</div><div class="kpi-label">Variables</div></div>
+          <div class="card span-6"><div class="kpi" id="profileMissing">0%</div><div class="kpi-label">Missing cells</div></div>
+          <div class="card span-6"><div class="kpi" id="profileDup">0</div><div class="kpi-label">Duplicate rows</div></div>
+        </div>
+      </div>
+
+      <div class="card span-8">
+        <h3>🩺 Data-quality score</h3>
+        <div class="data-quality">
+          <div class="quality-row"><b id="qualityLabel">Waiting for data...</b><b id="qualityScore">0/100</b></div>
+          <div class="progress"><div id="qualityBar"></div></div>
+          <div class="mini" id="qualityReason" style="margin-top:8px">Load a dataset to calculate quality.</div>
+        </div>
+        <div id="profileIssues"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h3>🧬 Variable intelligence</h3>
+      <div class="mini">MedViz automatically classifies each field and shows useful descriptive statistics.</div>
+      <div class="variable-grid" id="variableGrid"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3>2. Ask the analytical question</h3>
+    <div class="tabs" id="questionTabs">
+      <button class="tab active" data-q="compare">Compare categories</button>
+      <button class="tab" data-q="trend">Show change over time</button>
+      <button class="tab" data-q="composition">Part-to-whole</button>
+      <button class="tab" data-q="relationship">Relationship</button>
+      <button class="tab" data-q="many">Many categories</button>
+      <button class="tab" data-q="hierarchy">Hierarchy</button>
+      <button class="tab" data-q="patterns">2D patterns</button>
+      <button class="tab" data-q="geography">Geography</button>
+    </div>
+    <div class="controls">
+      <div><label for="xcol">Category / X</label><select id="xcol"></select></div>
+      <div><label for="ycol">Measure / Y</label><select id="ycol"></select></div>
+      <div><label for="colorcol">Color / subgroup</label><select id="colorcol"></select></div>
+      <div><label for="sizecol">Size</label><select id="sizecol"></select></div>
+      <div><label for="datecol">Date / time</label><select id="datecol"></select></div>
+    </div>
+    <div class="btnrow"><button class="btn primary" id="recommend">✨ Recommend visual</button><button class="btn success" id="render">▶ Render selected visual</button></div>
+  </div>
+
+  <div class="grid">
+    <div class="card span-8">
+      <h3 id="visualTitle">Recommended visual</h3>
+      <div class="mini" id="visualWhy">Load data and choose a question.</div>
+      <div class="chartbox" id="chart" aria-label="Interactive visualization"></div>
+    </div>
+    <div class="card span-4">
+      <h3>🧠 Interpretation</h3>
+      <div class="interpret" id="interpretation" aria-live="polite">Your interpretation will appear here after data is loaded.</div>
+      <div class="callout" style="margin-top:12px"><b>Context check:</b><br><span id="contextText">Compare with what? Over what period? For whom? Why might it matter?</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel hidden" id="guide">
+  <h2>🧭 Visual Decision Guide</h2>
+  <div class="sub">Start with the question, not the chart. This is the core principle of the reference poster.</div>
+  <div class="flow" style="margin-top:16px">
+    <div>❓ Question<br><span class="mini">What do I want to know?</span></div><div class="arrow">→</div>
+    <div>🗃️ Data type<br><span class="mini">What is its structure?</span></div><div class="arrow">→</div>
+    <div>📊 Visual<br><span class="mini">Which visual reveals it?</span></div>
+  </div>
+  <div class="grid" style="margin-top:16px">
+    <div class="card span-6"><h3>Compare categories</h3><p>Use a <b>bar chart</b> for discrete healthcare groups: departments, wards, treatment arms, age groups.</p></div>
+    <div class="card span-6"><h3>Trend over time</h3><p>Use a <b>line chart</b> when observations have an ordered time variable: daily cases, monthly admissions, annual mortality.</p></div>
+    <div class="card span-6"><h3>Part-to-whole</h3><p>Use <b>pie/donut</b> for a small number of meaningful categories. If there are many categories, prefer a bar chart.</p></div>
+    <div class="card span-6"><h3>Relationship</h3><p>Use a <b>scatter plot</b> to examine two numeric variables, such as waiting time and satisfaction score.</p></div>
+    <div class="card span-6"><h3>Many categories</h3><p>Use <b>packed bubbles</b> when magnitude across many categories is the message, but avoid it when exact comparison is essential.</p></div>
+    <div class="card span-6"><h3>Hierarchy</h3><p>Use a <b>treemap</b> for nested composition: hospital → department → unit, or disease → subtype → diagnosis.</p></div>
+    <div class="card span-6"><h3>Patterns across two dimensions</h3><p>Use a <b>heat map</b> for matrices such as weekday × hour, ward × month, or symptom × age group.</p></div>
+    <div class="card span-6"><h3>Geographic distribution</h3><p>Use <b>maps</b> when location is analytically meaningful. Choropleths show area-level rates; proportional symbols show point magnitude.</p></div>
+    <div class="card span-12"><h3>🌳 Quick Decision Tree</h3><div class="grid" style="margin-top:10px">
+      <div class="card span-3"><b>Compare?</b><br><span class="mini">→ Bar chart</span></div>
+      <div class="card span-3"><b>Trend over time?</b><br><span class="mini">→ Line chart</span></div>
+      <div class="card span-3"><b>Relationship?</b><br><span class="mini">→ Scatter plot</span></div>
+      <div class="card span-3"><b>Composition?</b><br><span class="mini">→ Pie / Donut or Treemap</span></div>
+      <div class="card span-3"><b>Many categories?</b><br><span class="mini">→ Packed bubbles or sorted bars</span></div>
+      <div class="card span-3"><b>Hierarchy?</b><br><span class="mini">→ Treemap</span></div>
+      <div class="card span-3"><b>2D pattern?</b><br><span class="mini">→ Heat map</span></div>
+      <div class="card span-3"><b>Geography?</b><br><span class="mini">→ Symbol map / Choropleth</span></div>
+    </div></div>
+  </div>
+</section>
+
+
+<section class="panel hidden" id="analytics">
+  <h2>🏥 Version 3 — Healthcare Analytics Lab</h2>
+  <div class="sub">Turn the uploaded healthcare dataset into KPIs, epidemiology measures, statistical tests, correlations, regression, classification diagnostics, outlier detection and anomaly detection.</div>
+
+  <div class="section-note" style="margin-top:14px">
+    <b>Important:</b> These calculations are exploratory and educational. They do not replace clinical judgment, a validated statistical package, or a prespecified research analysis plan. For epidemiology rates, always verify the numerator, denominator, population, time period and case definition.
+  </div>
+
+  <div class="analytics-tabs" id="analyticsTabs">
+    <button class="analytics-tab active" data-tool="kpi">8 · KPI Cards</button>
+    <button class="analytics-tab" data-tool="epi">9 · Epidemiology</button>
+    <button class="analytics-tab" data-tool="tests">10 · Statistical Tests</button>
+    <button class="analytics-tab" data-tool="corr">11 · Correlation</button>
+    <button class="analytics-tab" data-tool="reg">12 · Regression</button>
+    <button class="analytics-tab" data-tool="cm">13 · Confusion Matrix</button>
+    <button class="analytics-tab" data-tool="roc">14 · ROC</button>
+    <button class="analytics-tab" data-tool="outlier">15 · Outliers</button>
+    <button class="analytics-tab" data-tool="anomaly">16 · Anomalies</button>
+  </div>
+
+  <div id="analytics-kpi" class="analytics-view">
+    <div class="kpi-grid" id="healthKpis"></div>
+    <div class="card" style="margin-top:14px">
+      <h3>🎯 KPI configuration</h3>
+      <div class="analytics-controls">
+        <div><label for="kpiCount">Count / volume field</label><select id="kpiCount"></select></div>
+        <div><label for="kpiOutcome">Outcome / rate field</label><select id="kpiOutcome"></select></div>
+        <div><label for="kpiGroup">Group field</label><select id="kpiGroup"></select></div>
+        <div><label for="kpiTime">Time field</label><select id="kpiTime"></select></div>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="refreshKpi">Refresh healthcare KPIs</button></div>
+    </div>
+  </div>
+
+  <div id="analytics-epi" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-6">
+        <h3>🦠 Epidemiology calculator</h3>
+        <div class="analytics-controls">
+          <div><label for="epiCases">Cases / events</label><select id="epiCases"></select></div>
+          <div><label for="epiPopulation">Population / denominator</label><select id="epiPopulation"></select></div>
+          <div><label for="epiDeaths">Deaths</label><select id="epiDeaths"></select></div>
+          <div><label for="epiPersonTime">Person-time</label><select id="epiPersonTime"></select></div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="calcEpi">Calculate epidemiology measures</button></div>
+      </div>
+      <div class="card span-6">
+        <h3>📌 Measures</h3>
+        <div class="grid" id="epiResults"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>How to read them</h3>
+      <p class="mini"><b>Proportion / prevalence:</b> cases ÷ population. <b>Incidence rate:</b> new cases ÷ person-time. <b>Case fatality proportion:</b> deaths ÷ cases. The app reports the values from your selected fields; it does not decide whether your dataset represents prevalence or incidence.</p>
+    </div>
+  </div>
+
+  <div id="analytics-tests" class="analytics-view hidden">
+    <div class="card">
+      <h3>🧪 Statistical test selector</h3>
+      <div class="analytics-controls">
+        <div><label for="testType">Test</label>
+          <select id="testType">
+            <option value="ttest">Independent two-group t-test</option>
+            <option value="chisq">Chi-square test of independence</option>
+            <option value="anova">One-way ANOVA</option>
+          </select>
+        </div>
+        <div><label for="testY">Outcome / numeric variable</label><select id="testY"></select></div>
+        <div><label for="testGroup">Grouping / categorical variable</label><select id="testGroup"></select></div>
+        <div><label for="testGroup2">Second categorical variable (χ²)</label><select id="testGroup2"></select></div>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="runTest">Run selected test</button></div>
+      <div id="testResult" style="margin-top:12px"></div>
+    </div>
+    <div class="section-note" style="margin-top:12px">The interface explains the test choice and reports an approximate p-value where the browser implementation supports it. For publication-grade inference, reproduce the analysis in R, Python, Stata, SPSS or another validated statistical environment.</div>
+  </div>
+
+  <div id="analytics-corr" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-4">
+        <h3>🔗 Correlation</h3>
+        <div class="analytics-controls" style="grid-template-columns:1fr">
+          <div><label for="corrX">Variable X</label><select id="corrX"></select></div>
+          <div><label for="corrY">Variable Y</label><select id="corrY"></select></div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="runCorr">Calculate correlation</button></div>
+      </div>
+      <div class="card span-8">
+        <div id="corrResult"></div>
+        <div class="chartbox" id="corrChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="analytics-reg" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-4">
+        <h3>📈 Simple linear regression</h3>
+        <div class="analytics-controls" style="grid-template-columns:1fr">
+          <div><label for="regX">Predictor X</label><select id="regX"></select></div>
+          <div><label for="regY">Outcome Y</label><select id="regY"></select></div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="runReg">Fit regression</button></div>
+      </div>
+      <div class="card span-8">
+        <div id="regResult"></div>
+        <div class="chartbox" id="regChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="analytics-cm" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-5">
+        <h3>🎯 Confusion matrix</h3>
+        <div class="analytics-controls" style="grid-template-columns:1fr">
+          <div><label for="cmActual">Actual binary field</label><select id="cmActual"></select></div>
+          <div><label for="cmPred">Predicted binary field</label><select id="cmPred"></select></div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="runCM">Build confusion matrix</button></div>
+      </div>
+      <div class="card span-7">
+        <div id="cmResult"></div>
+        <div class="matrix" id="cmMatrix"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="analytics-roc" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-4">
+        <h3>📉 ROC / AUC</h3>
+        <div class="analytics-controls" style="grid-template-columns:1fr">
+          <div><label for="rocActual">Actual binary outcome</label><select id="rocActual"></select></div>
+          <div><label for="rocScore">Prediction score / probability</label><select id="rocScore"></select></div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="runROC">Calculate ROC</button></div>
+        <p class="stat-note" style="margin-top:10px">The score should be continuous or probability-like, where larger values indicate greater predicted likelihood of the positive class.</p>
+      </div>
+      <div class="card span-8">
+        <div id="rocResult"></div>
+        <div class="roc-box" id="rocChart"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="analytics-outlier" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-4">
+        <h3>📦 IQR outlier detector</h3>
+        <div><label for="outlierVar">Numeric variable</label><select id="outlierVar"></select></div>
+        <div class="btnrow"><button class="btn primary" id="runOutlier">Detect outliers</button></div>
+      </div>
+      <div class="card span-8"><div id="outlierResult"></div></div>
+    </div>
+  </div>
+
+  <div id="analytics-anomaly" class="analytics-view hidden">
+    <div class="grid">
+      <div class="card span-4">
+        <h3>🚨 Anomaly detector</h3>
+        <div><label for="anomalyVar">Measure</label><select id="anomalyVar"></select></div>
+        <div><label for="anomalyTime" style="margin-top:10px">Time / sequence field (optional)</label><select id="anomalyTime"></select></div>
+        <div class="btnrow"><button class="btn primary" id="runAnomaly">Detect anomalies</button></div>
+      </div>
+      <div class="card span-8"><div id="anomalyResult"></div></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="panel hidden" id="insights">
+  <h2>🧠 Version 4 — Insight Engine</h2>
+  <div class="sub">Move from “here is a chart” to “here is what deserves your attention.” MedViz automatically searches the loaded healthcare dataset for patterns, chart problems, subgroup differences, changes and actionable drill-downs.</div>
+
+  <div class="insight-hero">
+    <b>🔎 Insight Engine principle:</b> detect first → validate context → explain the pattern → choose the appropriate visual → drill down → compare groups or periods.
+    <div class="mini" style="margin-top:6px">Automated findings are hypotheses for investigation, not proof of causality or clinical significance.</div>
+  </div>
+
+  <div class="insight-tabs" id="insightTabs">
+    <button class="insight-tab active" data-insight="detective">17 · Insight Detective</button>
+    <button class="insight-tab" data-insight="doctor">18 · Chart Doctor</button>
+    <button class="insight-tab" data-insight="why">19 · Why this chart?</button>
+    <button class="insight-tab" data-insight="narrative">20 · Automated narrative</button>
+    <button class="insight-tab" data-insight="drill">21 · Drill-down</button>
+    <button class="insight-tab" data-insight="before">22 · Before vs after</button>
+    <button class="insight-tab" data-insight="filters">23 · Interactive filters</button>
+  </div>
+
+  <div id="insight-detective" class="insight-view">
+    <div class="insight-grid" id="detectiveSummary"></div>
+    <div class="card" style="margin-top:14px">
+      <div class="btnrow">
+        <button class="btn primary" id="runDetective">🔎 Scan dataset for insights</button>
+        <button class="btn" id="clearDetective">Clear findings</button>
+      </div>
+      <div id="detectiveFindings" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div id="insight-doctor" class="insight-view hidden">
+    <div class="grid">
+      <div class="card span-5">
+        <h3>🩺 Chart Doctor</h3>
+        <div class="analytics-controls" style="grid-template-columns:1fr">
+          <div><label for="doctorX">X / category / time</label><select id="doctorX"></select></div>
+          <div><label for="doctorY">Measure</label><select id="doctorY"></select></div>
+          <div><label for="doctorChart">Current chart</label>
+            <select id="doctorChart">
+              <option value="bar">Bar</option>
+              <option value="line">Line</option>
+              <option value="scatter">Scatter</option>
+              <option value="pie">Pie</option>
+            </select>
+          </div>
+        </div>
+        <div class="btnrow"><button class="btn primary" id="runDoctor">Diagnose chart</button></div>
+      </div>
+      <div class="card span-7" id="doctorResult"></div>
+    </div>
+  </div>
+
+  <div id="insight-why" class="insight-view hidden">
+    <div class="card">
+      <h3>🧭 Why this chart / why not that chart?</h3>
+      <div class="analytics-controls">
+        <div><label for="whyQuestion">Analytical question</label>
+          <select id="whyQuestion">
+            <option value="compare">Compare categories</option>
+            <option value="trend">Show change over time</option>
+            <option value="relationship">Show relationship</option>
+            <option value="composition">Show part-to-whole</option>
+            <option value="many">Compare many categories</option>
+            <option value="patterns">Find 2D patterns</option>
+          </select>
+        </div>
+        <div><label for="whyChart">Chart you are considering</label>
+          <select id="whyChart">
+            <option value="bar">Bar</option><option value="line">Line</option><option value="scatter">Scatter</option><option value="pie">Pie</option><option value="heat">Heat map</option>
+          </select>
+        </div>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="runWhy">Explain chart choice</button></div>
+      <div id="whyResult" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="insight-narrative" class="insight-view hidden">
+    <div class="card">
+      <h3>📝 Automated narrative</h3>
+      <div class="analytics-controls">
+        <div><label for="narrativeX">Grouping / X</label><select id="narrativeX"></select></div>
+        <div><label for="narrativeY">Measure / Y</label><select id="narrativeY"></select></div>
+        <div><label for="narrativeTime">Time field</label><select id="narrativeTime"></select></div>
+        <div><label for="narrativeGroup">Subgroup</label><select id="narrativeGroup"></select></div>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="runNarrative">Generate narrative</button></div>
+      <div class="narrative-box" id="narrativeResult" style="margin-top:12px">Select fields and generate a data-grounded narrative.</div>
+    </div>
+  </div>
+
+  <div id="insight-drill" class="insight-view hidden">
+    <div class="drill-layout">
+      <div class="card">
+        <h3>🔬 Drill-down path</h3>
+        <p class="mini">Choose a primary category and progressively narrow the dataset.</p>
+        <div><label for="drillLevel1">Level 1</label><select id="drillLevel1"></select></div>
+        <div style="margin-top:10px"><label for="drillLevel2">Level 2</label><select id="drillLevel2"></select></div>
+        <div style="margin-top:10px"><label for="drillLevel3">Level 3</label><select id="drillLevel3"></select></div>
+        <div style="margin-top:10px"><label for="drillMeasure">Measure</label><select id="drillMeasure"></select></div>
+        <div class="btnrow"><button class="btn primary" id="runDrill">Build drill-down</button></div>
+      </div>
+      <div class="card">
+        <h3>📊 Drill results</h3>
+        <div id="drillResult"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="insight-before" class="insight-view hidden">
+    <div class="card">
+      <h3>⏱️ Before vs after</h3>
+      <div class="analytics-controls">
+        <div><label for="beforeTime">Time field</label><select id="beforeTime"></select></div>
+        <div><label for="beforeMeasure">Measure</label><select id="beforeMeasure"></select></div>
+        <div><label for="beforeCut">Cut / intervention point</label><input id="beforeCut" type="text" placeholder="e.g. 2025-01-01"></div>
+        <div><label for="beforeGroup">Optional group</label><select id="beforeGroup"></select></div>
+      </div>
+      <div class="btnrow"><button class="btn primary" id="runBefore">Compare periods</button></div>
+      <div id="beforeResult" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <div id="insight-filters" class="insight-view hidden">
+    <div class="card">
+      <h3>🎛️ Interactive filters</h3>
+      <div class="mini">Filters are applied to the active Insight Engine tools. Use them to ask: “Does this pattern remain after I restrict the population, department, sex, age group, or other subgroup?”</div>
+      <div class="filter-grid" id="filterGrid" style="margin-top:12px"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="applyFilters">Apply filters</button>
+        <button class="btn" id="resetFilters">Reset filters</button>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div class="metric-box span-4"><div class="metric-value" id="filteredN">0</div><div class="metric-label">Filtered rows</div></div>
+        <div class="metric-box span-4"><div class="metric-value" id="filteredPct">0%</div><div class="metric-label">Of original data</div></div>
+        <div class="metric-box span-4"><div class="metric-value" id="filterCount">0</div><div class="metric-label">Active filters</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="panel hidden" id="research">
+  <h2>🎓 Version 5 — Research + AI Tutor</h2>
+  <div class="sub">Use the loaded dataset as a research-learning workspace: frame a study question, revise for exams, practise viva questions, generate a report draft, export a dashboard snapshot, build a healthcare story, and ask an AI-style local analyst.</div>
+  <div class="research-hero">
+    <b>🧠 Evidence-first tutor principle:</b> start from the data and analytical question → describe what is observed → choose an appropriate method → state limitations → communicate without inventing results.
+    <div class="mini" style="margin-top:6px">This tutor is browser-local and rule-based. It does not connect to an external AI model, literature database, or clinical decision system.</div>
+  </div>
+  <div class="research-tabs" id="researchTabs">
+    <button class="research-tab active" data-research="mode">24 · Research Mode</button>
+    <button class="research-tab" data-research="exam">25 · Exam Mode</button>
+    <button class="research-tab" data-research="viva">26 · Viva Mode</button>
+    <button class="research-tab" data-research="report">27 · Report generation</button>
+    <button class="research-tab" data-research="export">28 · Dashboard export</button>
+    <button class="research-tab" data-research="story">29 · Healthcare storytelling</button>
+    <button class="research-tab" data-research="chat">30 · AI-style analyst</button>
+  </div>
+
+  <div id="research-mode" class="research-view">
+    <div class="ai-grid">
+      <div class="ai-card"><h3>🔬 Research question</h3><label for="researchQuestion">What are you trying to learn?</label><textarea id="researchQuestion" placeholder="e.g. Is average waiting time different across departments?"></textarea></div>
+      <div class="ai-card"><h3>🧪 Study framing</h3><label for="researchDesign">Study / analysis context</label><select id="researchDesign"><option>Descriptive cross-sectional analysis</option><option>Observational comparison</option><option>Time-series / trend analysis</option><option>Diagnostic prediction evaluation</option><option>Operational quality improvement</option></select><div class="btnrow"><button class="btn primary" id="runResearch">Build research plan</button></div></div>
+      <div class="ai-card"><h3>📐 Method guidance</h3><div id="researchMethod" class="mini">Load data and build a research plan.</div></div>
+    </div>
+    <div class="ai-answer" id="researchAnswer" style="margin-top:12px">Your research framing, variables, descriptive checks, candidate analysis and limitations will appear here.</div>
+  </div>
+
+  <div id="research-exam" class="research-view hidden">
+    <div class="card"><div class="grid"><div class="span-4"><label for="examTopic">Topic</label><select id="examTopic"><option value="viz">Visualization</option><option value="stats">Statistics</option><option value="epi">Epidemiology</option><option value="research">Research methodology</option><option value="ml">Healthcare ML</option></select></div><div class="span-4"><label for="examDifficulty">Difficulty</label><select id="examDifficulty"><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></div><div class="span-4"><label>&nbsp;</label><button class="btn primary" id="startExam">Generate exam</button></div></div></div>
+    <div id="examResult" style="margin-top:12px"></div>
+  </div>
+
+  <div id="research-viva" class="research-view hidden">
+    <div class="card"><h3>🎤 Viva simulator</h3><p class="mini">Choose a topic and answer aloud or type. The tutor gives a concise examiner-style model answer and a follow-up question.</p><div class="controls"><div><label for="vivaTopic">Topic</label><select id="vivaTopic"><option value="study">Your dataset / study</option><option value="sampling">Sampling</option><option value="bias">Bias and confounding</option><option value="tests">Statistical tests</option><option value="regression">Regression</option><option value="diagnostic">Diagnostic accuracy</option><option value="visual">Visualization</option></select></div><div><label for="vivaQuestion">Question</label><select id="vivaQuestion"></select></div></div><div class="btnrow"><button class="btn primary" id="newViva">Ask viva question</button><button class="btn secondary" id="showViva">Show model answer</button></div><div id="vivaResult" class="ai-answer" style="margin-top:12px">Start the viva to receive an examiner-style question.</div></div>
+  </div>
+
+  <div id="research-report" class="research-view hidden">
+    <div class="card"><h3>📄 Research report generator</h3><div class="controls"><div><label for="reportTitle">Report title</label><input id="reportTitle" value="Healthcare Data Analysis Report"></div><div><label for="reportAuthor">Author</label><input id="reportAuthor" placeholder="Name / student / team"></div><div><label for="reportOutcome">Primary measure</label><select id="reportOutcome"></select></div><div><label for="reportGroup">Grouping variable</label><select id="reportGroup"></select></div><div><label for="reportTime">Time variable</label><select id="reportTime"></select></div></div><div class="btnrow"><button class="btn primary" id="generateReport">Generate report</button><button class="btn secondary" id="printReport">Print / save as PDF</button><button class="btn success" id="downloadReport">Download HTML report</button></div></div><div class="report-preview" id="reportPreview" style="margin-top:12px">Generate a report to create a structured draft with dataset description, descriptive findings, interpretation and limitations.</div>
+  </div>
+
+  <div id="research-export" class="research-view hidden">
+    <div class="card"><h3>📦 Dashboard export</h3><p class="mini">Export the current browser-local analysis as a portable HTML dashboard, a CSV of the active Insight Engine filter, or a printable report.</p><div class="export-actions"><button class="btn primary" id="exportDashboard">Download dashboard HTML</button><button class="btn secondary" id="exportCSV">Download filtered CSV</button><button class="btn success" id="exportPrint">Print dashboard</button></div><div id="exportStatus" class="mini" style="margin-top:10px"></div></div><div class="ai-grid" style="margin-top:12px"><div class="ai-card"><h3>Included</h3><p class="mini">Dataset metadata, KPI summary, active filters, selected fields and a research-safe interpretation note.</p></div><div class="ai-card"><h3>Portable</h3><p class="mini">The exported HTML contains the current analysis snapshot and can be opened offline.</p></div><div class="ai-card"><h3>Privacy</h3><p class="mini">Exports are created locally in your browser. Check your data governance policy before sharing patient-level data.</p></div></div></div>
+  </div>
+
+  <div id="research-story" class="research-view hidden">
+    <div class="card"><h3>📖 Healthcare storytelling</h3><div class="controls"><div><label for="storyQuestion">Story goal</label><select id="storyQuestion"><option value="problem">What problem is visible?</option><option value="trend">What changed?</option><option value="compare">Who differs?</option><option value="risk">Where is attention needed?</option><option value="action">What should be investigated next?</option></select></div><div><label for="storyGroup">Group</label><select id="storyGroup"></select></div><div><label for="storyMeasure">Measure</label><select id="storyMeasure"></select></div><div><label for="storyTime">Time</label><select id="storyTime"></select></div></div><div class="btnrow"><button class="btn primary" id="generateStory">Build healthcare story</button></div><div id="storyResult" class="ai-answer" style="margin-top:12px">A good healthcare story should move from context → signal → comparison → meaning → action.</div></div>
+  </div>
+
+  <div id="research-chat" class="research-view hidden">
+    <div class="card"><h3>💬 AI-style conversational analyst</h3><p class="mini">Ask about the currently loaded dataset. Examples: “What is missing?”, “Which department has the highest average waiting time?”, “What should I visualize?”, “Can I claim causation?”</p><div class="chat-box" id="chatBox"></div><div class="btnrow"><input id="chatInput" style="flex:1;min-width:240px" placeholder="Ask the analyst…"><button class="btn primary" id="sendChat">Ask</button><button class="btn secondary" id="clearChat">Clear</button></div></div>
+  </div>
+</section>
+
+<section class="panel hidden" id="v6">
+  <h2>🚀 Ultimate Research + AI <span class="mini">Version 6</span></h2>
+  <div class="sub">Research design, calculators, data auditing and a rule-based analyst, built on top of Versions 3–5 (all preserved). Educational use — not clinical decision support. 🔒 Your dataset stays in this browser session.</div>
+  <div class="v6road" id="v6road" aria-label="Learning roadmap"><button data-go="lab">DATA</button><span aria-hidden="true">→</span><button data-go="v6:vars">UNDERSTAND</button><span aria-hidden="true">→</span><button data-go="lab">VISUALIZE</button><span aria-hidden="true">→</span><button data-go="analytics">ANALYZE</button><span aria-hidden="true">→</span><button data-go="insights">DISCOVER</button><span aria-hidden="true">→</span><button data-go="v6:rq">RESEARCH</button><span aria-hidden="true">→</span><button data-go="research:exam">LEARN</button><span aria-hidden="true">→</span><button data-go="v6:chat">EXPLAIN</button><span aria-hidden="true">→</span><button data-go="research:report">REPORT</button><span aria-hidden="true">→</span><button data-go="research:viva">DEFEND</button></div>
+  <div class="v6crumb" id="v6crumb" aria-live="polite">MedViz Academy › Ultimate Research + AI</div>
+  <div class="research-tabs" id="v6tabs" role="tablist" aria-label="Version 6 modules"></div>
+  <div id="v6body" class="card"><div class="v6empty">Choose a module above.</div></div>
+</section>
+
+<section class="panel hidden" id="concepts">
+  <h2>📚 Every Concept in the Reference</h2>
+  <div class="sub">Click a concept to understand when it works in healthcare analytics.</div>
+  <div class="concepts" style="margin-top:14px">
+    <div class="concept"><div class="num">1</div><div><b>Why context matters</b><p>A number without its denominator, time period, population or comparison can mislead. “Mortality increased” is incomplete without knowing from what baseline and among whom.</p></div></div>
+    <div class="concept"><div class="num">2</div><div><b>Bar chart — compare categories</b><p>Best for comparing discrete groups. Sort bars when ranking is important and keep scales honest.</p></div></div>
+    <div class="concept"><div class="num">3</div><div><b>Line chart — trends over time</b><p>Best for continuous/ordered time. Match the time granularity to the clinical question: day, week, month, quarter or year.</p></div></div>
+    <div class="concept"><div class="num">4</div><div><b>Pie / donut — composition</b><p>Shows how a whole is divided. Keep categories few and mutually exclusive; a donut is useful when a central KPI helps.</p></div></div>
+    <div class="concept"><div class="num">5</div><div><b>Scatter plot — relationships</b><p>Shows whether two numeric variables move together. Look for direction, strength, clusters and outliers; correlation does not prove causation.</p></div></div>
+    <div class="concept"><div class="num">6</div><div><b>Packed bubbles — many categories</b><p>Bubble area communicates magnitude across many groups. Good for visual scanning; weaker than bars for precise comparison.</p></div></div>
+    <div class="concept"><div class="num">7</div><div><b>Treemap — hierarchical composition</b><p>Nested rectangles show parent-child structure and relative magnitude. Useful for hospital service lines and disease classifications.</p></div></div>
+    <div class="concept"><div class="num">8</div><div><b>Maps — geographic distribution</b><p>Use proportional symbols for point-level quantities and choropleths for region-level rates or proportions. Do not use geography when location adds no meaning.</p></div></div>
+    <div class="concept"><div class="num">9</div><div><b>Heat map — patterns across two dimensions</b><p>Color intensity makes high/low combinations easy to spot, such as ED arrivals by weekday and hour.</p></div></div>
+    <div class="concept"><div class="num">10</div><div><b>Golden rule</b><p><b>Don't ask “Which chart looks best?” Ask “Which chart makes the answer easiest to see?”</b> Right visual → clear pattern → better insight → better decision.</p></div></div>
+  </div>
+</section>
+
+<section class="panel hidden" id="mistakes">
+  <h2>⚠️ Common Visualization Mistakes</h2>
+  <div class="grid" style="margin-top:14px">
+    <div class="card span-6"><b>❌ Pie charts for too many categories</b><p class="mini">Switch to a sorted bar chart when slices become hard to compare.</p></div>
+    <div class="card span-6"><b>❌ 3D charts that distort perception</b><p class="mini">Use flat 2D marks so visual area maps honestly to data.</p></div>
+    <div class="card span-6"><b>❌ Too many colors without meaning</b><p class="mini">Reserve color for an analytical variable or meaningful alert state.</p></div>
+    <div class="card span-6"><b>❌ Not sorting categories</b><p class="mini">Sort bars when ranking or magnitude is the message.</p></div>
+    <div class="card span-6"><b>❌ Misleading axes or scales</b><p class="mini">Especially dangerous for clinical rates and outcome comparisons.</p></div>
+    <div class="card span-6"><b>❌ Overloading dashboards</b><p class="mini">Give each visual a clear question and prioritize the decision that matters.</p></div>
+    <div class="card span-6"><b>❌ Confusing association with causation</b><p class="mini">A scatter plot can reveal association; causal inference needs study design and appropriate analysis.</p></div>
+    <div class="card span-6"><b>❌ Ignoring denominators</b><p class="mini">A count of 50 means something different in a population of 500 versus 500,000.</p></div>
+  </div>
+</section>
+
+<section class="panel hidden" id="workflow">
+  <h2>🚀 The Complete Healthcare Visualization Workflow</h2>
+  <div class="flow" style="margin-top:16px">
+    <div>🗃️ Data</div><div class="arrow">→</div><div>🔎 Explore</div><div class="arrow">→</div><div>💡 Find insight</div>
+  </div>
+  <div class="flow" style="margin-top:8px">
+    <div>💬 Add context</div><div class="arrow">→</div><div>📊 Choose visual</div><div class="arrow">→</div><div>🧑‍⚕️ Communicate & share</div>
+  </div>
+  <div class="card" style="margin-top:16px;background:#eef7ff">
+    <h3>🎯 Final principle</h3>
+    <p style="font-size:18px;line-height:1.5;margin-bottom:0"><b>Data + Context + Meaning + Narrative = Insight.</b><br>
+    A beautiful dashboard is not the goal. The goal is to make the clinically or operationally important pattern easy to see and act on.</p>
+  </div>
+</section>
+</main>
+</div>
+<footer>MedViz Academy • Version 6 Ultimate Research + AI • Runs locally in your browser; data stays in this page unless you export it.</footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+const root=document.getElementById("app");
+let rows=[], columns=[], currentQuestion="compare", currentVisual="bar";
+
+const sampleCSV=`Date,Department,Region,Cases,WaitTime,ReadmissionRate,PatientSatisfaction,Severity,Cost
+2026-01-01,Emergency,North,220,74,11.2,72,High,42000
+2026-01-08,Emergency,North,245,81,12.1,69,High,46500
+2026-01-15,Emergency,North,260,88,13.0,67,High,49200
+2026-01-22,Emergency,South,238,77,11.5,71,High,45100
+2026-01-29,Emergency,South,280,92,14.1,64,High,52500
+2026-02-01,Cardiology,North,120,46,7.8,86,Medium,61000
+2026-02-08,Cardiology,North,132,49,8.2,84,Medium,64500
+2026-02-15,Cardiology,South,145,53,8.7,82,Medium,69200
+2026-02-22,Cardiology,South,152,57,9.1,79,Medium,72100
+2026-03-01,Pediatrics,East,180,39,5.2,91,Low,29800
+2026-03-08,Pediatrics,East,195,41,5.6,90,Low,31200
+2026-03-15,Pediatrics,West,210,44,6.0,88,Low,33700
+2026-03-22,Pediatrics,West,225,47,6.3,86,Low,35900
+2026-04-01,Orthopedics,West,155,61,8.4,80,Medium,54800
+2026-04-08,Orthopedics,West,162,64,8.8,78,Medium,56500
+2026-04-15,Orthopedics,North,174,69,9.4,75,Medium,59200`;
+
+const $=id=>document.getElementById(id);
+function parseCSV(text){
+  const lines=text.trim().split(/\r?\n/).filter(Boolean);
+  if(lines.length<2) throw new Error("CSV needs a header row and at least one data row.");
+  const parseLine=line=>{
+    const out=[]; let cur="", quote=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"' && line[i+1]==='"'){cur+='"';i++;continue}
+      if(ch==='"'){quote=!quote;continue}
+      if(ch===',' && !quote){out.push(cur.trim());cur="";} else cur+=ch;
+    }
+    out.push(cur.trim()); return out;
+  };
+  const head=parseLine(lines[0]).map((x,i)=>x||("Column_"+(i+1)));
+  return lines.slice(1).map(line=>{
+    const vals=parseLine(line); const o={};
+    head.forEach((h,i)=>o[h]=vals[i]??""); return o;
+  });
+}
+function isNum(v){return v!=="" && Number.isFinite(Number(String(v).replace(/[%₹$,]/g,"")))}
+function isDateLike(v){return v && !isNum(v) && !Number.isNaN(Date.parse(v))}
+function types(){
+  const numeric=[], categorical=[], dates=[];
+  columns.forEach(c=>{
+    const vals=rows.map(r=>r[c]).filter(v=>v!=="").slice(0,300);
+    const n=vals.length?vals.filter(isNum).length/vals.length:0;
+    const d=vals.length?vals.filter(isDateLike).length/vals.length:0;
+    if(n>.8) numeric.push(c); else if(d>.8) dates.push(c); else categorical.push(c);
+  });
+  return {numeric,categorical,dates};
+}
+function num(v){return Number(String(v).replace(/[%₹$,]/g,""))||0}
+function fmt(v){return Math.abs(v)>=1000000?(v/1000000).toFixed(1)+"M":Math.abs(v)>=1000?(v/1000).toFixed(1)+"K":Number(v).toFixed(v%1?1:0)}
+function fillSelect(id, list, blank=true){
+  const el=$(id); el.innerHTML="";
+  if(blank) el.appendChild(new Option("— Auto / none —",""));
+  list.forEach(c=>el.appendChild(new Option(c,c)));
+}
+
+function duplicateCount(data){
+  const seen=new Set(); let dup=0;
+  data.forEach(r=>{const key=columns.map(c=>String(r[c]??"")).join("\u0001"); if(seen.has(key))dup++; else seen.add(key);});
+  return dup;
+}
+function profileData(){
+  if(!rows.length){return}
+  const totalCells=rows.length*columns.length;
+  let missing=0;
+  columns.forEach(c=>rows.forEach(r=>{if(String(r[c]??"").trim()==="")missing++;}));
+  const missingPct=totalCells?missing/totalCells*100:0;
+  const dup=duplicateCount(rows);
+  const t=types();
+  const completeness=100-missingPct;
+  const duplicatePenalty=rows.length?Math.min(15,dup/rows.length*100):0;
+  const score=Math.max(0,Math.min(100,Math.round(completeness-duplicatePenalty)));
+  $("profileRows").textContent=rows.length;
+  $("profileCols").textContent=columns.length;
+  $("profileMissing").textContent=missingPct.toFixed(1)+"%";
+  $("profileDup").textContent=dup;
+  $("qualityScore").textContent=score+"/100";
+  $("qualityBar").style.width=score+"%";
+  $("qualityLabel").textContent=score>=90?"Excellent data quality":score>=75?"Good data quality":score>=50?"Needs attention":"Poor data quality";
+  $("qualityReason").textContent=`Completeness: ${completeness.toFixed(1)}% • ${t.numeric.length} numeric • ${t.categorical.length} categorical • ${t.dates.length} date-like • duplicate penalty: ${duplicatePenalty.toFixed(1)} points.`;
+  const issues=[];
+  if(missingPct>0)issues.push(`⚠ ${missing} missing cell${missing===1?"":"s"} detected (${missingPct.toFixed(1)}%).`);
+  if(dup>0)issues.push(`⚠ ${dup} duplicate row${dup===1?"":"s"} detected. Check whether these are legitimate repeated observations.`);
+  columns.forEach(c=>{
+    const vals=rows.map(r=>r[c]).filter(v=>String(v??"").trim()!=="");
+    if(vals.length>0 && vals.length<rows.length*0.5)issues.push(`⚠ ${c} has more than 50% missing values.`);
+    if(vals.length>1 && vals.every(isNum)){
+      const nums=vals.map(num), min=Math.min(...nums), max=Math.max(...nums);
+      if(min===max)issues.push(`⚠ ${c} has no variation (all observed values are ${fmt(min)}).`);
+    }
+  });
+  $("profileIssues").innerHTML=issues.length?issues.map(x=>`<div class="issue">${esc(x)}</div>`).join(""):`<div class="good">✓ No major structural quality issue detected by this basic profiler.</div>`;
+
+  const grid=$("variableGrid"); grid.innerHTML="";
+  columns.forEach(c=>{
+    const vals=rows.map(r=>r[c]).filter(v=>String(v??"").trim()!=="");
+    const numeric=vals.length>0 && vals.filter(isNum).length/vals.length>.8;
+    const date=vals.length>0 && vals.filter(isDateLike).length/vals.length>.8;
+    const type=numeric?"Numeric":date?"Date / Time":"Categorical";
+    let stats="";
+    if(numeric){
+      const ns=vals.map(num).sort((a,b)=>a-b);
+      const mean=ns.reduce((a,b)=>a+b,0)/ns.length;
+      const median=ns.length%2?ns[(ns.length-1)/2]:(ns[ns.length/2-1]+ns[ns.length/2])/2;
+      stats=`<div class="variable-stat"><b>${fmt(mean)}</b><span>Mean</span></div>
+             <div class="variable-stat"><b>${fmt(median)}</b><span>Median</span></div>
+             <div class="variable-stat"><b>${fmt(ns[0])}</b><span>Minimum</span></div>
+             <div class="variable-stat"><b>${fmt(ns[ns.length-1])}</b><span>Maximum</span></div>`;
+    }else{
+      const counts=new Map(); vals.forEach(v=>counts.set(v,(counts.get(v)||0)+1));
+      const unique=counts.size, top=[...counts.entries()].sort((a,b)=>b[1]-a[1])[0];
+      stats=`<div class="variable-stat"><b>${unique}</b><span>Unique values</span></div>
+             <div class="variable-stat"><b>${top?esc(top[0]).slice(0,18):"—"}</b><span>Most common</span></div>
+             <div class="variable-stat"><b>${vals.length}</b><span>Observed</span></div>
+             <div class="variable-stat"><b>${rows.length-vals.length}</b><span>Missing</span></div>`;
+    }
+    const missingHere=rows.length-vals.length;
+    grid.insertAdjacentHTML("beforeend",`<div class="variable-card">
+      <div class="variable-head"><b>${esc(c)}</b><span class="type-pill">${type}</span></div>
+      <div class="mini" style="margin-top:5px">${vals.length} observed • ${missingHere} missing</div>
+      <div class="variable-stats">${stats}</div>
+    </div>`);
+  });
+}
+
+function loadData(data,label){
+  rows=data; columns=data.length?Object.keys(data[0]):[];
+  profileData();
+  if(typeof refreshHealthcareAnalytics==="function") refreshHealthcareAnalytics(); if(typeof refreshInsightAfterData==="function") refreshInsightAfterData();
+  $("rowsKpi").textContent=rows.length; $("colsKpi").textContent=columns.length;
+  const t=types(); $("typeKpi").textContent=`Detected ${t.numeric.length} numeric • ${t.categorical.length} categorical • ${t.dates.length} date-like field(s).`;
+  fillSelect("xcol",[...new Set([...t.categorical,...t.dates,...t.numeric])],false);
+  fillSelect("ycol",t.numeric,false);
+  fillSelect("colorcol",columns,true); fillSelect("sizecol",t.numeric,true); fillSelect("datecol",t.dates,true);
+  if(t.categorical.length) $("xcol").value=t.categorical[0];
+  if(t.numeric.length) $("ycol").value=t.numeric[0];
+  if(t.dates.length) $("datecol").value=t.dates[0];
+  $("dataStatus").textContent=`Loaded ${rows.length} rows × ${columns.length} columns from ${label}.`;
+  recommend();
+}
+function groupBy(key, measure){
+  const m=new Map();
+  rows.forEach(r=>{const k=r[key]??"Missing"; const v=measure?num(r[measure]):1; m.set(k,(m.get(k)||0)+v)});
+  return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+}
+function svgEl(w,h,body){return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Healthcare visualization">${body}</svg>`}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function barChart(){
+  const x=$("xcol").value,y=$("ycol").value;if(!x||!y)return empty("Select a category and numeric measure.");
+  const g=groupBy(x,y).slice(0,14), max=Math.max(...g.map(d=>d[1]),1), W=760,H=330,left=150,right=35,top=22,row=22;
+  let b=`<line x1="${left}" y1="${top}" x2="${left}" y2="${H-35}" stroke="#9db0cc"/>`;
+  g.forEach((d,i)=>{const yy=top+i*row+8,w=(W-left-right)*d[1]/max;b+=`<text x="${left-8}" y="${yy+5}" text-anchor="end" font-size="11" fill="#42516b">${esc(d[0])}</text><rect x="${left}" y="${yy-5}" width="${w}" height="13" rx="6" fill="#2563eb"/><text x="${left+w+7}" y="${yy+5}" font-size="10" fill="#172033">${fmt(d[1])}</text>`});
+  return svgEl(W,H,b);
+}
+function lineChart(){
+  const date=$("datecol").value,y=$("ycol").value;if(!date||!y)return empty("Select a date field and numeric measure.");
+  const pts=rows.map(r=>({d:new Date(r[date]),v:num(r[y])})).filter(p=>!Number.isNaN(p.d.getTime())).sort((a,b)=>a.d-b.d);
+  if(!pts.length)return empty("No valid dates.");
+  const min=Math.min(...pts.map(p=>p.v)),max=Math.max(...pts.map(p=>p.v)),W=760,H=330,L=55,R=20,T=20,B=45,iw=W-L-R,ih=H-T-B;
+  const path=pts.map((p,i)=>`${i?"L":"M"} ${L+i*(iw/Math.max(pts.length-1,1))} ${T+ih-(p.v-min)/(max-min||1)*ih}`).join(" ");
+  let b=`<line x1="${L}" y1="${T+ih}" x2="${W-R}" y2="${T+ih}" stroke="#9db0cc"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ih}" stroke="#9db0cc"/><path d="${path}" fill="none" stroke="#7c3aed" stroke-width="3"/>`;
+  pts.forEach((p,i)=>{const cx=L+i*(iw/Math.max(pts.length-1,1)),cy=T+ih-(p.v-min)/(max-min||1)*ih;b+=`<circle cx="${cx}" cy="${cy}" r="4" fill="#ec4899"/><title>${p.d.toLocaleDateString()} — ${p.v}</title>`});
+  return svgEl(W,H,b);
+}
+function donutChart(){
+  const x=$("xcol").value,y=$("ycol").value;if(!x||!y)return empty("Select category and measure.");
+  const g=groupBy(x,y).slice(0,7),total=g.reduce((a,b)=>a+b[1],0),cx=250,cy=160,r=100;
+  let a=-Math.PI/2,b="",colors=["#2563eb","#f59e0b","#10b981","#ef4444","#7c3aed","#22d3ee","#ec4899"];
+  g.forEach((d,i)=>{const a2=a+d[1]/total*Math.PI*2, x1=cx+r*Math.cos(a),y1=cy+r*Math.sin(a),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2),large=a2-a>Math.PI?1:0;b+=`<path d="M ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} L ${cx} ${cy} Z" fill="${colors[i%colors.length]}"><title>${esc(d[0])}: ${d[1]}</title></path>`;a=a2});
+  b+=`<circle cx="${cx}" cy="${cy}" r="58" fill="white"/><text x="${cx}" y="${cy-3}" text-anchor="middle" font-size="13" font-weight="800">Total</text><text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="16" font-weight="900">${fmt(total)}</text>`;
+  g.forEach((d,i)=>{b+=`<rect x="430" y="${35+i*34}" width="13" height="13" rx="3" fill="${colors[i%colors.length]}"/><text x="450" y="${46+i*34}" font-size="11" fill="#172033">${esc(d[0])} — ${((d[1]/total)*100).toFixed(1)}%</text>`});
+  return svgEl(760,330,b);
+}
+function scatterChart(){
+  const x=$("xcol").value,y=$("ycol").value;if(!x||!y)return empty("Select two numeric fields: put the first numeric field in X.");
+  const pts=rows.map(r=>({x:num(r[x]),y:num(r[y])}));const xmin=Math.min(...pts.map(p=>p.x)),xmax=Math.max(...pts.map(p=>p.x)),ymin=Math.min(...pts.map(p=>p.y)),ymax=Math.max(...pts.map(p=>p.y));
+  const W=760,H=330,L=55,R=20,T=20,B=45,iw=W-L-R,ih=H-T-B;
+  let b=`<line x1="${L}" y1="${T+ih}" x2="${W-R}" y2="${T+ih}" stroke="#9db0cc"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ih}" stroke="#9db0cc"/>`;
+  pts.forEach(p=>{const cx=L+(p.x-xmin)/(xmax-xmin||1)*iw,cy=T+ih-(p.y-ymin)/(ymax-ymin||1)*ih;b+=`<circle cx="${cx}" cy="${cy}" r="5" fill="#10b981" opacity=".75"><title>${x}: ${p.x} • ${y}: ${p.y}</title></circle>`});
+  return svgEl(W,H,b);
+}
+function bubbleChart(){
+  const x=$("xcol").value,y=$("ycol").value;if(!x||!y)return empty("Select a category and measure.");
+  const g=groupBy(x,y).slice(0,12),max=Math.max(...g.map(d=>d[1]),1);let b="";
+  const pos=[[150,110],[330,90],[520,105],[240,230],[430,225],[620,220],[110,285],[340,300],[560,300],[690,150],[75,170],[650,300]];
+  g.forEach((d,i)=>{const [cx,cy]=pos[i],r=25+55*Math.sqrt(d[1]/max);b+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${["#2563eb","#f59e0b","#10b981","#ec4899","#7c3aed","#22d3ee"][i%6]}" opacity=".82"/><text x="${cx}" y="${cy-3}" text-anchor="middle" font-size="12" font-weight="900" fill="white">${esc(d[0]).slice(0,12)}</text><text x="${cx}" y="${cy+13}" text-anchor="middle" font-size="10" fill="white">${fmt(d[1])}</text>`});
+  return svgEl(760,330,b);
+}
+function heatmap(){
+  const x=$("xcol").value,y=$("ycol").value;if(!x||!y)return empty("Select a categorical X and numeric Y. A second categorical field improves the heatmap.");
+  const cats=[...new Set(rows.map(r=>r[x]))].slice(0,12), nums=rows.map(r=>num(r[y])), max=Math.max(...nums,1),min=Math.min(...nums,0),W=760,H=330,L=145,T=35,cellW=45,cellH=28;
+  let b="";
+  cats.forEach((c,i)=>{const vals=rows.filter(r=>r[x]===c).map(r=>num(r[y])); const v=vals.length?vals.reduce((a,z)=>a+z,0)/vals.length:0;const ratio=(v-min)/(max-min||1);const col=`hsl(${210-190*ratio} 75% ${88-38*ratio}%)`;b+=`<text x="${L-8}" y="${T+i*cellH+19}" text-anchor="end" font-size="11">${esc(c)}</text><rect x="${L}" y="${T+i*cellH}" width="${cellW*7}" height="${cellH-2}" rx="4" fill="${col}"/><text x="${L+cellW*3.5}" y="${T+i*cellH+18}" text-anchor="middle" font-size="10" font-weight="800">${v.toFixed(1)}</text>`});
+  return svgEl(W,H,b);
+}
+function empty(t){return `<div style="padding:40px;text-align:center;color:#64748b"><div style="font-size:38px">📊</div><b>${esc(t)}</b></div>`}
+function render(v){
+  currentVisual=v;
+  const titles={bar:"Bar Chart — Compare Categories",line:"Line Chart — Show Trends Over Time",donut:"Donut Chart — Part to Whole",scatter:"Scatter Plot — Relationships",bubble:"Packed Bubble Chart — Many Categories",heat:"Heat Map — Patterns Across Two Dimensions",tree:"Treemap — Hierarchical Composition",map:"Map — Geographic Distribution"};
+  const why={bar:"Best when your question is “which category is higher/lower?”",line:"Best when your x-axis is ordered time.",donut:"Best when a small number of categories make up a meaningful whole.",scatter:"Best for examining association between two numeric variables.",bubble:"Useful for visual scanning across many categories; exact comparisons are harder.",heat:"Useful for spotting high/low patterns across a categorical dimension.",tree:"Best when the data has parent → child hierarchy.",map:"Best when geography itself is meaningful."};
+  $("visualTitle").textContent=titles[v]||"Visualization";
+  $("visualWhy").textContent=why[v]||"";
+  if(v==="bar")$("chart").innerHTML=barChart();
+  else if(v==="line")$("chart").innerHTML=lineChart();
+  else if(v==="donut")$("chart").innerHTML=donutChart();
+  else if(v==="scatter")$("chart").innerHTML=scatterChart();
+  else if(v==="bubble")$("chart").innerHTML=bubbleChart();
+  else if(v==="heat")$("chart").innerHTML=heatmap();
+  else if(v==="tree")$("chart").innerHTML=barChart().replace(/<svg/,"<svg") + `<div class="mini" style="padding:4px 12px">Treemap mode uses the same category → measure aggregation here; use a true hierarchy field for a production treemap.</div>`;
+  else if(v==="map") $("chart").innerHTML=empty("Map mode needs a real geographic field and boundary data. This demo intentionally does not invent geography.");
+  interpret();
+}
+function recommend(){
+  const t=types(), x=$("xcol").value,y=$("ycol").value;
+  let v="bar";
+  if(currentQuestion==="trend" && $("datecol").value) v="line";
+  else if(currentQuestion==="composition") v="donut";
+  else if(currentQuestion==="relationship" && t.numeric.length>=2){ if(!t.numeric.includes(x)) $("xcol").value=t.numeric[0]; if(!t.numeric.includes(y)) $("ycol").value=t.numeric[1]||t.numeric[0]; v="scatter";}
+  else if(currentQuestion==="many")v="bubble";
+  else if(currentQuestion==="patterns")v="heat";
+  else if(currentQuestion==="hierarchy")v="tree";
+  else if(currentQuestion==="geography")v="map";
+  render(v);
+}
+function pearson(a,b){const n=a.length,ma=a.reduce((s,x)=>s+x,0)/n,mb=b.reduce((s,x)=>s+x,0)/n;let p=0,qa=0,qb=0;for(let i=0;i<n;i++){const da=a[i]-ma,db=b[i]-mb;p+=da*db;qa+=da*da;qb+=db*db}return p/Math.sqrt((qa||1)*(qb||1))}
+function interpret(){
+  if(!rows.length){$("interpretation").textContent="Load data first.";return}
+  const x=$("xcol").value,y=$("ycol").value,date=$("datecol").value;
+  if(currentVisual==="bar"||currentVisual==="donut"||currentVisual==="bubble"||currentVisual==="tree"){
+    if(!x||!y){$("interpretation").textContent="Choose a category and numeric measure.";return}
+    const g=groupBy(x,y), top=g[0], bottom=g[g.length-1], total=g.reduce((s,d)=>s+d[1],0);
+    $("interpretation").innerHTML=`<b>${esc(top[0])}</b> has the largest aggregated ${esc(y)} (${fmt(top[1])}), while <b>${esc(bottom[0])}</b> is lowest (${fmt(bottom[1])}). The largest category contributes about <b>${(top[1]/total*100).toFixed(1)}%</b> of the displayed total. <br><br><span class="mini">Healthcare context: confirm the denominator, observation period and case-mix before calling one department “better” or “worse.”</span>`;
+  } else if(currentVisual==="line"){
+    if(!date||!y){$("interpretation").textContent="Choose a date and numeric measure.";return}
+    const p=rows.map(r=>({d:new Date(r[date]),v:num(r[y])})).filter(z=>!Number.isNaN(z.d.getTime())).sort((a,b)=>a.d-b.d);
+    if(p.length<2){$("interpretation").textContent="Not enough valid time points.";return}
+    const first=p[0].v,last=p[p.length-1].v,delta=last-first,pct=first?delta/first*100:0;
+    $("interpretation").innerHTML=`From <b>${p[0].d.toLocaleDateString()}</b> to <b>${p[p.length-1].d.toLocaleDateString()}</b>, ${esc(y)} changed from <b>${fmt(first)}</b> to <b>${fmt(last)}</b> (${pct>=0?"+":""}${pct.toFixed(1)}%). ${delta>0?"The overall direction is upward.":"The overall direction is downward."} <br><br><span class="mini">Do not infer causality from a time trend alone; investigate seasonality, policy changes, case mix and exposure definitions.</span>`;
+  } else if(currentVisual==="scatter"){
+    if(!x||!y){$("interpretation").textContent="Choose two numeric variables.";return}
+    const a=rows.map(r=>num(r[x])),b=rows.map(r=>num(r[y])),r=pearson(a,b);
+    const strength=Math.abs(r)<.2?"very weak":Math.abs(r)<.4?"weak":Math.abs(r)<.7?"moderate":"strong";
+    $("interpretation").innerHTML=`The Pearson correlation between <b>${esc(x)}</b> and <b>${esc(y)}</b> is approximately <b>${r.toFixed(2)}</b>, indicating a <b>${strength} ${r>=0?"positive":"negative"}</b> linear association in this dataset. <br><br><span class="mini">Correlation is not causation. Check confounding, temporal ordering, study design and clinical plausibility.</span>`;
+  } else if(currentVisual==="heat"){
+    $("interpretation").innerHTML=`The heat-map encoding uses intensity to make higher and lower average values easier to spot across <b>${esc(x)}</b>. Look for repeated high-intensity cells, clusters and unusual low/high combinations before forming a clinical or operational hypothesis.`;
+  } else {
+    $("interpretation").textContent="This visualization is primarily a structural guide. Add the correct geographic or hierarchy fields before making a substantive interpretation.";
+  }
+}
+
+
+/* ========================= Version 4 Insight Engine ========================= */
+let insightRows = null;
+let activeFilters = {};
+
+function analysisRows(){ return insightRows || rows; }
+function uniqueValues(data,col,limit=100){
+  return [...new Set(data.map(r=>String(r[col]??"").trim()).filter(Boolean))].slice(0,limit);
+}
+function fillInsightSelect(id,list,placeholder="— select —"){
+  const el=$(id); if(!el)return;
+  el.innerHTML="";
+  el.appendChild(new Option(placeholder,""));
+  list.forEach(v=>el.appendChild(new Option(v,v)));
+}
+function setupInsightControls(){
+  const n=numericColumns(), c=categoricalColumns(), d=dateColumns();
+  ["doctorY","narrativeY","drillMeasure","beforeMeasure"].forEach(id=>fillInsightSelect(id,n));
+  ["doctorX","narrativeX","narrativeGroup","drillLevel1","drillLevel2","drillLevel3","beforeGroup"].forEach(id=>fillInsightSelect(id,c.length?c:columns));
+  ["narrativeTime","beforeTime"].forEach(id=>fillInsightSelect(id,d));
+  if(n.length){
+    ["doctorY","narrativeY","drillMeasure","beforeMeasure"].forEach(id=>$(id).value=n[0]);
+  }
+  if(c.length){
+    ["doctorX","narrativeX","narrativeGroup","drillLevel1","drillLevel2","drillLevel3","beforeGroup"].forEach((id,i)=>$(id).value=c[Math.min(i,c.length-1)]);
+  }
+  if(d.length){
+    ["narrativeTime","beforeTime"].forEach(id=>$(id).value=d[0]);
+  }
+  buildFilterControls();
+}
+function buildFilterControls(){
+  const data=analysisRows(), c=categoricalColumns();
+  const selected=c.filter(col=>uniqueValues(data,col,30).length>0).slice(0,8);
+  $("filterGrid").innerHTML=selected.map(col=>{
+    const vals=uniqueValues(data,col,30);
+    return `<div class="filter-chip"><label for="flt_${cssId(col)}">${esc(col)}</label><select id="flt_${cssId(col)}" data-filter-col="${esc(col)}"><option value="">All</option>${vals.map(v=>`<option value="${esc(v)}">${esc(v)}</option>`).join("")}</select></div>`;
+  }).join("");
+  updateFilterSummary();
+}
+function cssId(x){return String(x).replace(/[^a-zA-Z0-9_-]/g,"_")}
+function applyActiveFilters(){
+  activeFilters={};
+  document.querySelectorAll("#filterGrid select[data-filter-col]").forEach(el=>{if(el.value)activeFilters[el.dataset.filterCol]=el.value});
+  insightRows=rows.filter(r=>Object.entries(activeFilters).every(([k,v])=>String(r[k]??"").trim()===v));
+  updateFilterSummary();
+}
+function resetActiveFilters(){
+  activeFilters={};insightRows=null;
+  document.querySelectorAll("#filterGrid select").forEach(el=>el.value="");
+  updateFilterSummary();
+}
+function updateFilterSummary(){
+  const n=analysisRows().length,total=rows.length;
+  $("filteredN").textContent=n;
+  $("filteredPct").textContent=(total?n/total*100:0).toFixed(1)+"%";
+  $("filterCount").textContent=Object.keys(activeFilters).length;
+}
+function switchInsight(name){
+  document.querySelectorAll(".insight-view").forEach(v=>v.classList.add("hidden"));
+  $("insight-"+name).classList.remove("hidden");
+  document.querySelectorAll(".insight-tab").forEach(b=>b.classList.toggle("active",b.dataset.insight===name));
+  if(name==="detective")runDetective();
+}
+function numericSummary(data,col){
+  const a=data.map(r=>num(r[col])).filter(Number.isFinite);
+  if(!a.length)return null;
+  return {n:a.length,mean:avg(a),sd:sd(a),min:Math.min(...a),max:Math.max(...a),q1:quantile(a,.25),q3:quantile(a,.75)};
+}
+function topCategory(data,col){
+  const counts={};data.forEach(r=>{const v=String(r[col]??"").trim();if(v)counts[v]=(counts[v]||0)+1});
+  const arr=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  return arr.length?{name:arr[0][0],count:arr[0][1],total:data.length,share:arr[0][1]/data.length}:null;
+}
+function makeFinding(type,title,text,level="info"){return {type,title,text,level}}
+function detectInsights(data){
+  const findings=[], n=numericColumns(), c=categoricalColumns(), d=dateColumns();
+  if(!data.length)return findings;
+  // Missingness
+  const missByCol=columns.map(col=>({col,miss:data.filter(r=>String(r[col]??"").trim()==="").length}));
+  missByCol.sort((a,b)=>b.miss-a.miss);
+  missByCol.slice(0,3).filter(x=>x.miss>0).forEach(x=>findings.push(makeFinding("quality","Missing-data hotspot",`<b>${esc(x.col)}</b> has ${x.miss} missing value${x.miss===1?"":"s"} (${(x.miss/data.length*100).toFixed(1)}%). Check whether missingness is clinically meaningful before imputation or exclusion.`,"warn")));
+  // Numeric outliers
+  n.slice(0,12).forEach(col=>{
+    const a=data.map(r=>num(r[col])).filter(Number.isFinite);if(a.length<8)return;
+    const q1=quantile(a,.25),q3=quantile(a,.75),iqr=q3-q1,lo=q1-1.5*iqr,hi=q3+1.5*iqr;
+    const k=a.filter(v=>v<lo||v>hi).length;
+    if(k && k/a.length>=.05)findings.push(makeFinding("outlier","Potential outlier concentration",`<b>${esc(col)}</b> has ${k}/${a.length} (${(k/a.length*100).toFixed(1)}%) values outside the 1.5×IQR fences. Investigate data quality and clinical extremes.`,"warn"));
+  });
+  // Category imbalance
+  c.slice(0,10).forEach(col=>{
+    const t=topCategory(data,col);
+    if(t && t.share>=.8 && uniqueValues(data,col,100).length>=2)findings.push(makeFinding("balance","Strong category imbalance",`In <b>${esc(col)}</b>, "${esc(t.name)}" accounts for ${(t.share*100).toFixed(1)}% of observations. Subgroup comparisons may have unstable estimates for small categories.`,"warn"));
+  });
+  // Numeric relationships
+  let corrHits=[];
+  for(let i=0;i<Math.min(n.length,12);i++)for(let j=i+1;j<Math.min(n.length,12);j++){
+    const p=pairedNumericFrom(data,n[i],n[j]);if(p.length<8)continue;
+    const r=pearson(p.map(z=>z[0]),p.map(z=>z[1]));
+    if(Math.abs(r)>=.7)corrHits.push({a:n[i],b:n[j],r});
+  }
+  corrHits.sort((a,b)=>Math.abs(b.r)-Math.abs(a.r)).slice(0,5).forEach(z=>findings.push(makeFinding("relationship","Strong numeric relationship",`<b>${esc(z.a)}</b> and <b>${esc(z.b)}</b> show a ${z.r>=0?"positive":"negative"} Pearson correlation of <b>${z.r.toFixed(2)}</b>. Investigate redundancy, confounding and whether the relationship is clinically plausible.`,"good")));
+  // Time trend
+  if(d.length && n.length){
+    const dc=d[0],yc=n[0],p=data.map(r=>({d:new Date(r[dc]),v:num(r[yc])})).filter(z=>Number.isFinite(z.v)&&!Number.isNaN(z.d.getTime())).sort((a,b)=>a.d-b.d);
+    if(p.length>=6){
+      const first=avg(p.slice(0,Math.max(2,Math.floor(p.length*.2))).map(z=>z.v)),last=avg(p.slice(-Math.max(2,Math.floor(p.length*.2))).map(z=>z.v)),delta=last-first;
+      if(Math.abs(delta)/(Math.abs(first)||1)>=.2)findings.push(makeFinding("trend","Meaningful end-to-end shift",`<b>${esc(yc)}</b> changed from an early-period average of ${fmt(first)} to a late-period average of ${fmt(last)} (${delta>=0?"+":""}${(delta/(Math.abs(first)||1)*100).toFixed(1)}%). Investigate seasonality, policy changes and case mix before attributing a cause.`,"good"));
+    }
+  }
+  if(!findings.length)findings.push(makeFinding("info","No high-priority pattern detected","The automated scan did not find a strong pattern under its simple screening rules. That does not mean the dataset contains no meaningful clinical or operational insight.","info"));
+  return findings;
+}
+function pairedNumericFrom(data,a,b){
+  return data.map(r=>[num(r[a]),num(r[b])]).filter(p=>Number.isFinite(p[0])&&Number.isFinite(p[1]));
+}
+function runDetective(){
+  const data=analysisRows(), f=detectInsights(data);
+  $("detectiveSummary").innerHTML=[
+    ["🔎",f.length,"Findings screened","Automatic screening rules"],
+    ["👥",data.length,"Rows analysed","Current filter state"],
+    ["🔢",numericColumns().length,"Numeric fields","Available measures"]
+  ].map(x=>`<div class="insight-card"><div>${x[0]}</div><div class="big">${x[1]}</div><div class="small">${esc(x[2])} · ${esc(x[3])}</div></div>`).join("");
+  $("detectiveFindings").innerHTML=f.map((z,i)=>`<div class="finding ${z.level}"><div class="finding-title">${i+1}. ${z.title}</div><div class="finding-text">${z.text}</div></div>`).join("");
+}
+function runDoctor(){
+  const x=$("doctorX").value,y=$("doctorY").value,ch=$("doctorChart").value,data=analysisRows();
+  let score=100,issues=[],reasons=[];
+  const cats=x?uniqueValues(data,x,100):[], nums=y?numericSummary(data,y):null;
+  if(!x||!y){$("doctorResult").innerHTML='<div class="alert-warn">Select an X field and a numeric measure.</div>';return}
+  if(ch==="line"&&!dateColumns().includes(x)){score-=30;issues.push("Line chart requires an ordered time variable.");}
+  if(ch==="scatter"&&(!numericColumns().includes(x)||!numericColumns().includes(y))){score-=35;issues.push("Scatter plots require two numeric variables.");}
+  if(ch==="bar"&&cats.length>25){score-=20;issues.push("There are many categories; a sorted horizontal bar chart may be easier to read.");}
+  if(ch==="pie"&&cats.length>6){score-=30;issues.push("Pie charts become difficult to compare with many categories.");}
+  if(ch==="pie"&&nums&&data.length>0){score-=5;issues.push("Pie requires values that form a meaningful whole, not arbitrary continuous measurements.");}
+  if(nums&&nums.n<data.length){score-=5;issues.push(`${data.length-nums.n} rows have non-numeric or missing values for the selected measure.`);}
+  if(score>=90)reasons.push("The selected encoding is broadly compatible with the data structure.");
+  else reasons.push("The chart can be rendered, but the encoding may make the analytical message harder to read.");
+  $("doctorResult").innerHTML=`<div class="doctor-score">${Math.max(0,score)}/100</div><p><b>Diagnosis:</b> ${reasons.join(" ")}</p>${issues.length?`<h4>🩺 Issues to fix</h4><ul class="reason-list">${issues.map(i=>`<li>${esc(i)}</li>`).join("")}</ul>`:"<div class=\"alert-good\">No major structural chart problems detected.</div>"}<p class="stat-note" style="margin-top:12px">A chart can be technically valid and still be a poor communication choice. Always check the question, audience and clinical context.</p>`;
+}
+function runWhy(){
+  const q=$("whyQuestion").value,ch=$("whyChart").value;
+  const good={
+    compare:["bar","Use a bar chart because the task is direct comparison of independent categories.","line","scatter","pie"],
+    trend:["line","Use a line chart because the order of time points carries meaning and the viewer needs to see direction and change.","bar","pie","scatter"],
+    relationship:["scatter","Use a scatter plot because each observation is a pair of numeric values and the goal is to see their relationship.","bar","pie","line"],
+    composition:["pie","Use a pie chart only when categories represent parts of one meaningful whole and there are only a few categories.","line","scatter","heat"],
+    many:["bar","Use a sorted horizontal bar chart because ranking many categories is easier than comparing slices or dense lines.","pie","line","scatter"],
+    patterns:["heat","Use a heat map when two categorical dimensions form a matrix and color intensity should expose clusters or hotspots.","pie","line","scatter"]
+  };
+  const [best,reason,...rest]=good[q],match=ch===best;
+  $("whyResult").innerHTML=`<div class="${match?"alert-good":"alert-warn"}"><b>${match?"Good choice":"Consider another chart"}.</b> ${reason}</div><div class="grid" style="margin-top:12px"><div class="metric-box span-6"><div class="metric-value">${esc(best)}</div><div class="metric-label">Recommended chart</div></div><div class="metric-box span-6"><div class="metric-value">${esc(ch)}</div><div class="metric-label">Your selected chart</div></div></div><ul class="reason-list"><li>Ask whether the x-axis has an inherent order.</li><li>Check whether exact comparison or overall trend is the main goal.</li><li>For healthcare, preserve denominators and avoid implying causality through visual design.</li></ul>`;
+}
+function runNarrative(){
+  const data=analysisRows(),x=$("narrativeX").value,y=$("narrativeY").value,t=$("narrativeTime").value,g=$("narrativeGroup").value;
+  if(!y){$("narrativeResult").textContent="Select a numeric measure.";return}
+  const s=numericSummary(data,y),top=x?topCategory(data,x):null;
+  let text=`The dataset contains <b>${data.length}</b> observations. For <b>${esc(y)}</b>, the available numeric observations have a mean of <b>${fmt(s.mean)}</b>, a standard deviation of <b>${fmt(s.sd)}</b>, and a range from <b>${fmt(s.min)}</b> to <b>${fmt(s.max)}</b>.`;
+  if(top)text+=` The largest observed category for <b>${esc(x)}</b> is <b>${esc(top.name)}</b>, representing <b>${(top.share*100).toFixed(1)}%</b> of rows.`;
+  if(t){
+    const p=data.map(r=>({d:new Date(r[t]),v:num(r[y])})).filter(z=>Number.isFinite(z.v)&&!Number.isNaN(z.d.getTime())).sort((a,b)=>a.d-b.d);
+    if(p.length>=2){const first=p[0].v,last=p[p.length-1].v,change=first?((last-first)/Math.abs(first)*100):NaN;text+=` Across the available time range, <b>${esc(y)}</b> moved from <b>${fmt(first)}</b> to <b>${fmt(last)}</b>${Number.isFinite(change)?` (${change>=0?"+":""}${change.toFixed(1)}%)`:""}.`;}
+  }
+  if(g){
+    const groups={};data.forEach(r=>{if(r[g]&&isNum(r[y]))(groups[r[g]]??=[]).push(num(r[y]));});
+    const ranked=Object.entries(groups).filter(z=>z[1].length).map(z=>({g:z[0],m:avg(z[1]),n:z[1].length})).sort((a,b)=>b.m-a.m);
+    if(ranked.length>=2)text+=` By <b>${esc(g)}</b>, the highest observed mean is in <b>${esc(ranked[0].g)}</b> (${fmt(ranked[0].m)}; n=${ranked[0].n}) and the lowest is in <b>${esc(ranked.at(-1).g)}</b> (${fmt(ranked.at(-1).m)}; n=${ranked.at(-1).n}).`;
+  }
+  text+=` <br><br><span class="stat-note">This narrative is descriptive. It does not establish causality, clinical significance, statistical significance or generalisability beyond the analysed data.</span>`;
+  $("narrativeResult").innerHTML=text;
+}
+function runDrill(){
+  const data=analysisRows(),levels=[$("drillLevel1").value,$("drillLevel2").value,$("drillLevel3").value].filter(Boolean),measure=$("drillMeasure").value;
+  if(!levels.length||!measure){$("drillResult").innerHTML='<div class="alert-warn">Select at least one grouping level and a numeric measure.</div>';return}
+  let current=data,html=`<p class="mini">Starting rows: <b>${data.length}</b></p>`;
+  levels.forEach((col,idx)=>{
+    const groups={};current.forEach(r=>{const k=String(r[col]??"").trim();if(k)(groups[k]??=[]).push(num(r[measure]));});
+    const ranked=Object.entries(groups).map(([k,v])=>({k,n:v.filter(Number.isFinite).length,m:avg(v.filter(Number.isFinite))})).filter(z=>z.n).sort((a,b)=>b.m-a.m).slice(0,15);
+    html+=`<h4>${idx+1}. ${esc(col)}</h4><table class="insight-table"><tr><th>Category</th><th>n</th><th>Mean ${esc(measure)}</th></tr>${ranked.map(z=>`<tr><td>${esc(z.k)}</td><td>${z.n}</td><td>${z.m.toFixed(2)}</td></tr>`).join("")}</table>`;
+  });
+  $("drillResult").innerHTML=html;
+}
+function parseDateValue(v){const d=new Date(v);return Number.isNaN(d.getTime())?null:d}
+function runBefore(){
+  const data=analysisRows(),t=$("beforeTime").value,y=$("beforeMeasure").value,cut=$("beforeCut").value,g=$("beforeGroup").value;
+  if(!t||!y||!cut){$("beforeResult").innerHTML='<div class="alert-warn">Select a time field, measure and intervention/cut-off value.</div>';return}
+  const cd=parseDateValue(cut);if(!cd){$("beforeResult").innerHTML='<div class="alert-warn">The cut-off could not be parsed as a date. Use a recognizable date such as 2025-01-01.</div>';return}
+  const before=data.filter(r=>{const d=parseDateValue(r[t]);return d&&d<cd}),after=data.filter(r=>{const d=parseDateValue(r[t]);return d&&d>=cd});
+  const b=avg(before.map(r=>num(r[y])).filter(Number.isFinite)),a=avg(after.map(r=>num(r[y])).filter(Number.isFinite)),delta=a-b,pct=b?delta/Math.abs(b)*100:NaN;
+  $("beforeResult").innerHTML=`<div class="compare-box"><div class="insight-card"><div class="small">Before · ${esc(cut)}</div><div class="big">${fmt(b)}</div><div class="small">n = ${before.length}</div></div><div class="insight-card"><div class="small">After · ${esc(cut)}</div><div class="big">${fmt(a)}</div><div class="small">n = ${after.length}</div></div></div><div class="change-arrow">${delta>=0?"▲":"▼"} ${fmt(delta)}${Number.isFinite(pct)?` (${pct>=0?"+":""}${pct.toFixed(1)}%)`:""}</div><div class="${delta>=0?"alert-good":"alert-warn"}">The mean of <b>${esc(y)}</b> is ${delta>=0?"higher":"lower"} after the cut-off in this descriptive comparison. ${g?"A group-specific comparison should be used before attributing the change to an intervention.":"This simple before/after comparison does not control for seasonality, secular trends, confounding or regression to the mean."}</div>`;
+}
+function refreshInsightAfterData(){insightRows=null;activeFilters={};setupInsightControls();if($("insights")&&!$("insights").classList.contains("hidden"))runDetective();}
+
+/* Hooks */
+document.querySelectorAll(".insight-tab").forEach(b=>b.addEventListener("click",()=>switchInsight(b.dataset.insight)));
+$("runDetective").addEventListener("click",runDetective);
+$("clearDetective").addEventListener("click",()=>{$("detectiveFindings").innerHTML="";$("detectiveSummary").innerHTML=""});
+$("runDoctor").addEventListener("click",runDoctor);
+$("runWhy").addEventListener("click",runWhy);
+$("runNarrative").addEventListener("click",runNarrative);
+$("runDrill").addEventListener("click",runDrill);
+$("runBefore").addEventListener("click",runBefore);
+$("applyFilters").addEventListener("click",applyActiveFilters);
+$("resetFilters").addEventListener("click",resetActiveFilters);
+
+/* ========================= Version 3 Healthcare Analytics ========================= */
+function numericColumns(){ return types().numeric; }
+function categoricalColumns(){ return types().categorical; }
+function dateColumns(){ return types().dates; }
+function avg(a){ return a.length?a.reduce((s,x)=>s+x,0)/a.length:0; }
+function variance(a){ if(a.length<2)return 0; const m=avg(a); return a.reduce((s,x)=>s+(x-m)**2,0)/(a.length-1); }
+function sd(a){ return Math.sqrt(variance(a)); }
+function quantile(a,q){ if(!a.length)return 0; const x=[...a].sort((a,b)=>a-b), p=(x.length-1)*q, lo=Math.floor(p), hi=Math.ceil(p); return lo===hi?x[lo]:x[lo]+(x[hi]-x[lo])*(p-lo); }
+function cleanNumeric(col){ return rows.map(r=>num(r[col])).filter(v=>Number.isFinite(v)); }
+function pairedNumeric(a,b){
+  const out=[];
+  rows.forEach(r=>{const av=Number(String(r[a]).replace(/[%₹$,]/g,"")),bv=Number(String(r[b]).replace(/[%₹$,]/g,""));if(Number.isFinite(av)&&Number.isFinite(bv))out.push([av,bv]);});
+  return out;
+}
+function fillAnalyticsSelect(id,list,placeholder="— select —"){
+  const el=$(id); if(!el)return; el.innerHTML="";
+  el.appendChild(new Option(placeholder,""));
+  list.forEach(c=>el.appendChild(new Option(c,c)));
+}
+function refreshAnalyticsSelects(){
+  const n=numericColumns(), c=categoricalColumns(), all=columns;
+  ["kpiCount","kpiOutcome","epiCases","epiPopulation","epiDeaths","epiPersonTime","testY","corrX","corrY","regX","regY","outlierVar","anomalyVar","rocScore"].forEach(id=>fillAnalyticsSelect(id,n));
+  ["kpiGroup","testGroup","testGroup2","cmActual","cmPred","rocActual"].forEach(id=>fillAnalyticsSelect(id,c.length?c:all));
+  fillAnalyticsSelect("kpiTime",dateColumns());
+  fillAnalyticsSelect("anomalyTime",dateColumns());
+  if(n.length){
+    ["kpiCount","epiCases","testY","corrX","regX","outlierVar","anomalyVar"].forEach(id=>$(id).value=n[0]);
+    ["kpiOutcome","corrY","regY","epiPopulation","epiDeaths","epiPersonTime","rocScore"].forEach((id,i)=>$(id).value=n[Math.min(i+1,n.length-1)]);
+  }
+  if(c.length){
+    ["kpiGroup","testGroup","testGroup2","cmActual","cmPred","rocActual"].forEach((id,i)=>$(id).value=c[Math.min(i,c.length-1)]);
+  }
+  if(dateColumns().length){$("kpiTime").value=dateColumns()[0];$("anomalyTime").value=dateColumns()[0];}
+}
+function sumColumn(col){return cleanNumeric(col).reduce((a,b)=>a+b,0)}
+function healthKPI(){
+  const n=numericColumns(), c=categoricalColumns();
+  const countCol=$("kpiCount").value||n[0], outcome=$("kpiOutcome").value||n[1]||n[0], group=$("kpiGroup").value||c[0];
+  const count=countCol?sumColumn(countCol):rows.length;
+  const meanOutcome=outcome?avg(cleanNumeric(outcome)):0;
+  const uniqueGroup=group?[...new Set(rows.map(r=>r[group]).filter(Boolean))].length:0;
+  const missing=columns.length?rows.reduce((s,r)=>s+columns.filter(c=>String(r[c]??"").trim()==="").length,0)/(rows.length*columns.length)*100:0;
+  const kpis=[
+    ["🏥",fmt(count),countCol||"Rows / volume","Aggregate volume"],
+    ["📈",fmt(meanOutcome),outcome||"Outcome","Mean outcome"],
+    ["👥",fmt(uniqueGroup),group||"Group","Unique groups"],
+    ["🧬",fmt(rows.length),"Observations","Records"],
+    ["⚠️",missing.toFixed(1)+"%","Missing cells","Data completeness"],
+    ["🩺",rows.length?fmt(count/rows.length):"0","Volume / row","Average contribution"]
+  ];
+  $("healthKpis").innerHTML=kpis.map(k=>`<div class="health-kpi"><div class="icon">${k[0]}</div><div class="value">${k[1]}</div><div class="label">${esc(k[2])}</div><div class="delta">${esc(k[3])}</div></div>`).join("");
+}
+function epidemiology(){
+  const cases=$("epiCases").value,pop=$("epiPopulation").value,deaths=$("epiDeaths").value,pt=$("epiPersonTime").value;
+  const C=cases?sumColumn(cases):0,P=pop?sumColumn(pop):0,D=deaths?sumColumn(deaths):0,T=pt?sumColumn(pt):0;
+  const prevalence=P>0?C/P*100:NaN, incidence=T>0?C/T:NaN, cfr=C>0?D/C*100:NaN;
+  const arr=[
+    ["Cases / events",C?fmt(C):"—","Selected numerator"],
+    ["Denominator",P?fmt(P):"—","Selected population"],
+    ["Proportion / prevalence",Number.isFinite(prevalence)?prevalence.toFixed(2)+"%":"—","Cases ÷ population"],
+    ["Incidence rate",Number.isFinite(incidence)?incidence.toFixed(4):"—","Cases ÷ person-time"],
+    ["Deaths",D?fmt(D):"—","Selected deaths"],
+    ["Case fatality",Number.isFinite(cfr)?cfr.toFixed(2)+"%":"—","Deaths ÷ cases"]
+  ];
+  $("epiResults").innerHTML=arr.map(a=>`<div class="metric-box span-6"><div class="metric-value">${a[1]}</div><div class="metric-label">${esc(a[0])}<br>${esc(a[2])}</div></div>`).join("");
+}
+function erf(x){
+  const sign=x<0?-1:1,x0=Math.abs(x),t=1/(1+0.3275911*x0);
+  const poly=((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t;
+  const y=1-poly*Math.exp(-x0*x0);
+  return sign*y;
+}
+function normalCDF(z){return 0.5*(1+erf(z/Math.sqrt(2)))}
+function gammaLn(x){
+  const cof=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,0.001208650973866179,-5.395239384953e-6];
+  let y=x,tmp=x+5.5;tmp-=(x+0.5)*Math.log(tmp);let ser=1.000000000190015;
+  for(let j=0;j<cof.length;j++){y+=1;ser+=cof[j]/y}
+  return -tmp+Math.log(2.5066282746310005*ser/x);
+}
+function gammaincP(a,x){
+  if(x<=0)return 0;
+  if(x<a+1){
+    let sum=1/a,del=sum,ap=a;
+    for(let n=1;n<100;n++){ap++;del*=x/ap;sum+=del;if(Math.abs(del)<Math.abs(sum)*1e-12)break}
+    return sum*Math.exp(-x+a*Math.log(x)-gammaLn(a));
+  }
+  let b=x+1-a,c=1e30,d=1/b,h=d;
+  for(let i=1;i<100;i++){
+    const an=-i*(i-a),aa=an;
+    b+=2;d=aa*d+b;if(Math.abs(d)<1e-30)d=1e-30;c=b+aa/c;if(Math.abs(c)<1e-30)c=1e-30;d=1/d;const del=d*c;h*=del;if(Math.abs(del-1)<1e-12)break;
+  }
+  return 1-h*Math.exp(-x+a*Math.log(x)-gammaLn(a));
+}
+function chiSquarePValue(x2,df){return 1-gammaincP(df/2,x2/2)}
+function tTest(a,b){
+  const na=a.length,nb=b.length;if(na<2||nb<2)return null;
+  const ma=avg(a),mb=avg(b),va=variance(a),vb=variance(b),se=Math.sqrt(va/na+vb/nb)||Infinity;
+  const t=(ma-mb)/se, p=2*(1-normalCDF(Math.abs(t))); return {t,p,na,nb,ma,mb};
+}
+function chiSquare(data,a,b){
+  const A=[...new Set(data.map(r=>r[a]).filter(v=>v!==""))],B=[...new Set(data.map(r=>r[b]).filter(v=>v!==""))];
+  if(A.length<2||B.length<2)return null;
+  const obs=A.map(x=>B.map(y=>data.filter(r=>r[a]===x&&r[b]===y).length));
+  const row=obs.map(r=>r.reduce((s,v)=>s+v,0)), col=B.map((_,j)=>obs.reduce((s,r)=>s+r[j],0)),N=data.length;
+  let x2=0;obs.forEach((r,i)=>r.forEach((o,j)=>{const e=row[i]*col[j]/N;if(e>0)x2+=(o-e)**2/e;}));
+  const df=(A.length-1)*(B.length-1),p=chiSquarePValue(x2,df);return{x2,df,p,A,B,obs};
+}
+function anova(data,y,g){
+  const groups={};data.forEach(r=>{if(r[g]!==""&&isNum(r[y]))(groups[r[g]]??=[]).push(num(r[y]));});
+  const keys=Object.keys(groups).filter(k=>groups[k].length>=2);if(keys.length<2)return null;
+  const all=keys.flatMap(k=>groups[k]),grand=avg(all),k=keys.length,N=all.length;
+  const ssb=keys.reduce((s,key)=>s+groups[key].length*(avg(groups[key])-grand)**2,0);
+  const ssw=keys.reduce((s,key)=>s+groups[key].reduce((z,v)=>z+(v-avg(groups[key]))**2,0),0);
+  const msb=ssb/(k-1),msw=ssw/(N-k),F=msb/(msw||Infinity),p=1-gammaincP((k-1)/2,((k-1)*F)/2);
+  return{F,p,df1:k-1,df2:N-k,groups:keys.map(key=>({key,n:groups[key].length,mean:avg(groups[key])}))};
+}
+function runTest(){
+  const type=$("testType").value,y=$("testY").value,g=$("testGroup").value,g2=$("testGroup2").value;
+  let html="";
+  if(type==="ttest"){
+    if(!y||!g){$("testResult").innerHTML='<div class="alert-warn">Select a numeric outcome and a grouping variable.</div>';return}
+    const levels=[...new Set(rows.map(r=>r[g]).filter(Boolean))];
+    if(levels.length!==2){$("testResult").innerHTML='<div class="alert-warn">The independent two-group t-test requires exactly 2 observed groups. Choose another grouping variable.</div>';return}
+    const a=rows.filter(r=>r[g]===levels[0]&&isNum(r[y])).map(r=>num(r[y])),b=rows.filter(r=>r[g]===levels[1]&&isNum(r[y])).map(r=>num(r[y])),res=tTest(a,b);
+    html=res?`<div class="grid"><div class="metric-box span-4"><div class="metric-value">${res.t.toFixed(3)}</div><div class="metric-label">t statistic</div></div><div class="metric-box span-4"><div class="metric-value">${res.p<0.001?"<0.001":res.p.toFixed(4)}</div><div class="metric-label">Approx. p-value</div></div><div class="metric-box span-4"><div class="metric-value">${res.ma.toFixed(2)} vs ${res.mb.toFixed(2)}</div><div class="metric-label">Group means</div></div></div><div class="${res.p<0.05?"alert-good":"alert-warn"}" style="margin-top:10px">${res.p<0.05?"The observed group means differ at the 0.05 level under this approximate calculation.":"The observed evidence is not below 0.05 under this approximate calculation."} <span class="stat-note">Groups: ${esc(levels[0])} (n=${res.na}) vs ${esc(levels[1])} (n=${res.nb}).</span></div>`:"";
+  } else if(type==="chisq"){
+    if(!g||!g2){$("testResult").innerHTML='<div class="alert-warn">Select two categorical variables.</div>';return}
+    const res=chiSquare(rows,g,g2);
+    html=res?`<div class="grid"><div class="metric-box span-4"><div class="metric-value">${res.x2.toFixed(3)}</div><div class="metric-label">χ² statistic</div></div><div class="metric-box span-4"><div class="metric-value">${res.df}</div><div class="metric-label">Degrees of freedom</div></div><div class="metric-box span-4"><div class="metric-value">${res.p<0.001?"<0.001":res.p.toFixed(4)}</div><div class="metric-label">p-value</div></div></div><div class="${res.p<0.05?"alert-good":"alert-warn"}" style="margin-top:10px">${res.p<0.05?"Evidence of an association between the two categorical variables under this test.":"No evidence below the 0.05 threshold under this test."}</div>`:"";
+  } else {
+    if(!y||!g){$("testResult").innerHTML='<div class="alert-warn">Select a numeric outcome and grouping variable.</div>';return}
+    const res=anova(rows,y,g);
+    html=res?`<div class="grid"><div class="metric-box span-4"><div class="metric-value">${res.F.toFixed(3)}</div><div class="metric-label">F statistic</div></div><div class="metric-box span-4"><div class="metric-value">${res.df1}, ${res.df2}</div><div class="metric-label">df numerator, denominator</div></div><div class="metric-box span-4"><div class="metric-value">${res.p<0.001?"<0.001":res.p.toFixed(4)}</div><div class="metric-label">Approx. p-value</div></div></div><table class="result-table"><tr><th>Group</th><th>n</th><th>Mean</th></tr>${res.groups.map(z=>`<tr><td>${esc(z.key)}</td><td>${z.n}</td><td>${z.mean.toFixed(2)}</td></tr>`).join("")}</table><div class="${res.p<0.05?"alert-good":"alert-warn"}" style="margin-top:10px">${res.p<0.05?"At least one group mean differs under the overall ANOVA test.":"The overall ANOVA test is not below 0.05."} <span class="stat-note">Post-hoc tests are not performed here.</span></div>`:"";
+  }
+  $("testResult").innerHTML=html||'<div class="alert-warn">Unable to calculate with the selected fields.</div>';
+}
+function correlationResult(){
+  const x=$("corrX").value,y=$("corrY").value;if(!x||!y||x===y){$("corrResult").innerHTML='<div class="alert-warn">Select two different numeric variables.</div>';return}
+  const pairs=pairedNumeric(x,y),a=pairs.map(p=>p[0]),b=pairs.map(p=>p[1]),r=pearson(a,b);
+  const r2=r*r,strength=Math.abs(r)<.2?"very weak":Math.abs(r)<.4?"weak":Math.abs(r)<.7?"moderate":"strong";
+  $("corrResult").innerHTML=`<div class="grid"><div class="metric-box span-4"><div class="metric-value">${r.toFixed(3)}</div><div class="metric-label">Pearson r</div></div><div class="metric-box span-4"><div class="metric-value">${r2.toFixed(3)}</div><div class="metric-label">R²</div></div><div class="metric-box span-4"><div class="metric-value">${pairs.length}</div><div class="metric-label">Paired observations</div></div></div><div class="alert-good" style="margin-top:10px">A <b>${strength} ${r>=0?"positive":"negative"}</b> linear association is observed. <span class="stat-note">This describes association, not causation.</span></div>`;
+  drawScatter("corrChart",pairs,x,y,null);
+}
+function regression(){
+  const x=$("regX").value,y=$("regY").value;if(!x||!y||x===y){$("regResult").innerHTML='<div class="alert-warn">Select different numeric X and Y variables.</div>';return}
+  const pairs=pairedNumeric(x,y),xs=pairs.map(p=>p[0]),ys=pairs.map(p=>p[1]);if(pairs.length<3){$("regResult").innerHTML='<div class="alert-warn">At least 3 paired observations are required.</div>';return}
+  const mx=avg(xs),my=avg(ys),sxx=xs.reduce((s,v)=>s+(v-mx)**2,0),sxy=xs.reduce((s,v,i)=>s+(v-mx)*(ys[i]-my),0),slope=sxy/(sxx||Infinity),intercept=my-slope*mx;
+  const preds=xs.map(v=>intercept+slope*v),sse=ys.reduce((s,v,i)=>s+(v-preds[i])**2,0),sst=ys.reduce((s,v)=>s+(v-my)**2,0),r2=1-sse/(sst||Infinity),r=pearson(xs,ys);
+  $("regResult").innerHTML=`<div class="grid"><div class="metric-box span-3"><div class="metric-value">${slope.toFixed(3)}</div><div class="metric-label">Slope b₁</div></div><div class="metric-box span-3"><div class="metric-value">${intercept.toFixed(3)}</div><div class="metric-label">Intercept b₀</div></div><div class="metric-box span-3"><div class="metric-value">${r2.toFixed(3)}</div><div class="metric-label">R²</div></div><div class="metric-box span-3"><div class="metric-value">${pairs.length}</div><div class="metric-label">n</div></div></div><div class="alert-good" style="margin-top:10px"><b>Model:</b> ${esc(y)} = ${intercept.toFixed(3)} + ${slope.toFixed(3)} × ${esc(x)}. A one-unit increase in X corresponds to an estimated ${slope>=0?"increase":"decrease"} of ${Math.abs(slope).toFixed(3)} units in Y. <span class="stat-note">This is an observational regression summary; it does not by itself establish causality.</span></div>`;
+  drawScatter("regChart",pairs,x,y,{slope,intercept});
+}
+function drawScatter(id,pairs,xlabel,ylabel,line){
+  const el=$(id);if(!pairs.length){el.innerHTML=empty("No paired numeric observations.");return}
+  const xs=pairs.map(p=>p[0]),ys=pairs.map(p=>p[1]),xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(...ys),ymax=Math.max(...ys),W=760,H=320,L=55,R=20,T=20,B=45,iw=W-L-R,ih=H-T-B;
+  let body=`<line x1="${L}" y1="${T+ih}" x2="${W-R}" y2="${T+ih}" stroke="#9db0cc"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ih}" stroke="#9db0cc"/>`;
+  pairs.forEach(p=>{const cx=L+(p[0]-xmin)/(xmax-xmin||1)*iw,cy=T+ih-(p[1]-ymin)/(ymax-ymin||1)*ih;body+=`<circle cx="${cx}" cy="${cy}" r="5" fill="#2563eb" opacity=".72"><title>${esc(xlabel)}: ${p[0]} • ${esc(ylabel)}: ${p[1]}</title></circle>`});
+  if(line){const y1=line.intercept+line.slope*xmin,y2=line.intercept+line.slope*xmax;const cx1=L,cy1=T+ih-(y1-ymin)/(ymax-ymin||1)*ih,cx2=L+iw,cy2=T+ih-(y2-ymin)/(ymax-ymin||1)*ih;body+=`<line x1="${cx1}" y1="${cy1}" x2="${cx2}" y2="${cy2}" stroke="#ef4444" stroke-width="3"/>`}
+  el.innerHTML=svgEl(W,H,body);
+}
+function binary(v){
+  const s=String(v).trim().toLowerCase();
+  if(["1","yes","true","positive","disease","case"].includes(s))return 1;
+  if(["0","no","false","negative","healthy","control"].includes(s))return 0;
+  return null;
+}
+function confusion(){
+  const a=$("cmActual").value,p=$("cmPred").value;if(!a||!p||a===p){$("cmResult").innerHTML='<div class="alert-warn">Select two different binary variables.</div>';return}
+  let tp=0,tn=0,fp=0,fn=0,used=0;
+  rows.forEach(r=>{const av=binary(r[a]),pv=binary(r[p]);if(av===null||pv===null)return;used++;if(av&&pv)tp++;else if(!av&&!pv)tn++;else if(!av&&pv)fp++;else fn++;});
+  const total=tp+tn+fp+fn,acc=total?(tp+tn)/total:0,prec=tp+fp?tp/(tp+fp):0,rec=tp+fn?tp/(tp+fn):0,spec=tn+fp?tn/(tn+fp):0,f1=prec+rec?2*prec*rec/(prec+rec):0;
+  $("cmMatrix").innerHTML=`<div class="matrix-cell"><strong>${tn}</strong>True Negative</div><div class="matrix-cell"><strong>${fp}</strong>False Positive</div><div class="matrix-cell"><strong>${fn}</strong>False Negative</div><div class="matrix-cell"><strong>${tp}</strong>True Positive</div>`;
+  $("cmResult").innerHTML=`<div class="grid"><div class="metric-box span-3"><div class="metric-value">${(acc*100).toFixed(1)}%</div><div class="metric-label">Accuracy</div></div><div class="metric-box span-3"><div class="metric-value">${(prec*100).toFixed(1)}%</div><div class="metric-label">Precision / PPV</div></div><div class="metric-box span-3"><div class="metric-value">${(rec*100).toFixed(1)}%</div><div class="metric-label">Sensitivity / Recall</div></div><div class="metric-box span-3"><div class="metric-value">${(spec*100).toFixed(1)}%</div><div class="metric-label">Specificity</div></div></div><div class="metric-box" style="margin-top:10px"><div class="metric-value">${(f1*100).toFixed(1)}%</div><div class="metric-label">F1 score • ${used} usable observations</div></div>`;
+}
+function roc(){
+  const a=$("rocActual").value,s=$("rocScore").value;if(!a||!s||a===s){$("rocResult").innerHTML='<div class="alert-warn">Select a binary outcome and a numeric prediction score.</div>';return}
+  const data=[];rows.forEach(r=>{const y=binary(r[a]),score=Number(String(r[s]).replace(/[%₹$,]/g,""));if(y!==null&&Number.isFinite(score))data.push({y,score})});
+  const pos=data.filter(d=>d.y===1).length,neg=data.filter(d=>d.y===0).length;if(!pos||!neg){$("rocResult").innerHTML='<div class="alert-warn">ROC requires both positive and negative cases.</div>';return}
+  const sorted=[...data].sort((u,v)=>v.score-u.score),points=[{fpr:0,tpr:0}],seen=new Set();
+  sorted.forEach(d=>{seen.add(d.score);const t=sorted.filter(z=>z.score>=d.score),tp=t.filter(z=>z.y===1).length,fp=t.filter(z=>z.y===0).length;points.push({fpr:fp/neg,tpr:tp/pos});});
+  points.push({fpr:1,tpr:1});points.sort((u,v)=>u.fpr-v.fpr||u.tpr-v.tpr);
+  let auc=0;for(let i=1;i<points.length;i++)auc+=(points[i].fpr-points[i-1].fpr)*(points[i].tpr+points[i-1].tpr)/2;
+  $("rocResult").innerHTML=`<div class="grid"><div class="metric-box span-4"><div class="metric-value">${auc.toFixed(3)}</div><div class="metric-label">AUC</div></div><div class="metric-box span-4"><div class="metric-value">${pos}</div><div class="metric-label">Positive cases</div></div><div class="metric-box span-4"><div class="metric-value">${neg}</div><div class="metric-label">Negative cases</div></div></div><div class="alert-good" style="margin-top:10px">AUC summarizes discrimination across score thresholds. AUC alone does not tell you the clinically optimal threshold.</div>`;
+  const W=760,H=320,L=60,R=25,T=20,B=45,iw=W-L-R,ih=H-T-B;
+  let body=`<line x1="${L}" y1="${T+ih}" x2="${W-R}" y2="${T+ih}" stroke="#9db0cc"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+ih}" stroke="#9db0cc"/><line x1="${L}" y1="${T+ih}" x2="${W-R}" y2="${T}" stroke="#cbd5e1" stroke-dasharray="6 6"/>`;
+  const path=points.map((p,i)=>`${i?"L":"M"} ${L+p.fpr*iw} ${T+ih-p.tpr*ih}`).join(" ");
+  body+=`<path d="${path}" fill="none" stroke="#7c3aed" stroke-width="3"/>`;
+  $("rocChart").innerHTML=svgEl(W,H,body);
+}
+function outlier(){
+  const c=$("outlierVar").value;if(!c){$("outlierResult").innerHTML='<div class="alert-warn">Select a numeric variable.</div>';return}
+  const vals=cleanNumeric(c),q1=quantile(vals,.25),q3=quantile(vals,.75),iqr=q3-q1,lo=q1-1.5*iqr,hi=q3+1.5*iqr,outs=rows.map((r,i)=>({i,v:num(r[c])})).filter(z=>isNum(rows[z.i][c])&&(z.v<lo||z.v>hi));
+  $("outlierResult").innerHTML=`<div class="grid"><div class="metric-box span-3"><div class="metric-value">${q1.toFixed(2)}</div><div class="metric-label">Q1</div></div><div class="metric-box span-3"><div class="metric-value">${q3.toFixed(2)}</div><div class="metric-label">Q3</div></div><div class="metric-box span-3"><div class="metric-value">${lo.toFixed(2)}</div><div class="metric-label">Lower fence</div></div><div class="metric-box span-3"><div class="metric-value">${hi.toFixed(2)}</div><div class="metric-label">Upper fence</div></div></div><div class="${outs.length?"alert-warn":"alert-good"}" style="margin-top:10px"><b>${outs.length} potential outlier${outs.length===1?"":"s"}</b> detected by the 1.5×IQR rule (${vals.length} numeric observations). Outliers may represent true clinical extremes, special populations or data errors; do not delete them automatically.</div>${outs.length?`<table class="result-table"><tr><th>Row</th><th>Value</th></tr>${outs.slice(0,30).map(z=>`<tr><td>${z.i+1}</td><td>${z.v}</td></tr>`).join("")}</table>`:""}`;
+}
+function anomaly(){
+  const c=$("anomalyVar").value,time=$("anomalyTime").value;if(!c){$("anomalyResult").innerHTML='<div class="alert-warn">Select a numeric measure.</div>';return}
+  const vals=rows.map((r,i)=>({i,v:num(r[c]),t:time?r[time]:""})).filter(z=>isNum(rows[z.i][c])),x=vals.map(z=>z.v),m=avg(x),s=sd(x),zscore=vals.map(z=>({...z,z:(z.v-m)/(s||Infinity)})).filter(z=>Math.abs(z.z)>=3);
+  let direction=zscore.filter(z=>z.z>0).length>=zscore.filter(z=>z.z<0).length?"high":"low";
+  $("anomalyResult").innerHTML=`<div class="grid"><div class="metric-box span-4"><div class="metric-value">${m.toFixed(2)}</div><div class="metric-label">Mean</div></div><div class="metric-box span-4"><div class="metric-value">${s.toFixed(2)}</div><div class="metric-label">SD</div></div><div class="metric-box span-4"><div class="metric-value">${zscore.length}</div><div class="metric-label">|z| ≥ 3 anomalies</div></div></div><div class="${zscore.length?"alert-warn":"alert-good"}" style="margin-top:10px">${zscore.length?`Detected ${zscore.length} unusually ${direction} observation${zscore.length===1?"":"s"} using a |z| ≥ 3 rule.`:"No |z| ≥ 3 observations detected."} <span class="stat-note">For time-series surveillance, consider seasonality, trend and rolling baselines rather than relying only on a global z-score.</span></div>${zscore.length?`<table class="result-table"><tr><th>Row</th><th>Time</th><th>Value</th><th>z-score</th></tr>${zscore.slice(0,30).map(z=>`<tr><td>${z.i+1}</td><td>${esc(z.t||"—")}</td><td>${z.v}</td><td>${z.z.toFixed(2)}</td></tr>`).join("")}</table>`:""}`;
+}
+function showAnalyticsTool(tool){
+  document.querySelectorAll(".analytics-view").forEach(v=>v.classList.add("hidden"));
+  const target=$("analytics-"+tool);if(target)target.classList.remove("hidden");
+  document.querySelectorAll(".analytics-tab").forEach(b=>b.classList.toggle("active",b.dataset.tool===tool));
+  if(tool==="kpi")healthKPI();
+}
+function refreshHealthcareAnalytics(){refreshAnalyticsSelects();healthKPI();if(typeof setupInsightControls==="function")setupInsightControls();}
+
+function setSection(id){
+  document.querySelectorAll(".main>.panel").forEach(p=>p.classList.toggle("hidden",p.id!==id));
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.section===id));
+}
+document.querySelectorAll(".nav button").forEach(b=>b.addEventListener("click",()=>setSection(b.dataset.section)));
+document.querySelectorAll("#questionTabs .tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("#questionTabs .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentQuestion=b.dataset.q;recommend()}));
+$("recommend").addEventListener("click",recommend);
+$("render").addEventListener("click",()=>render(currentVisual));
+["xcol","ycol","colorcol","sizecol","datecol"].forEach(id=>$(id).addEventListener("change",()=>render(currentVisual)));
+$("sample").addEventListener("click",()=>loadData(parseCSV(sampleCSV),"built-in hospital sample"));
+$("loadPaste").addEventListener("click",()=>{try{loadData(parseCSV($("paste").value),"pasted CSV")}catch(e){$("dataStatus").textContent="⚠️ "+e.message}});
+$("file").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{loadData(parseCSV(await f.text()),f.name)}catch(err){$("dataStatus").textContent="⚠️ "+err.message}});
+
+document.querySelectorAll(".analytics-tab").forEach(b=>b.addEventListener("click",()=>showAnalyticsTool(b.dataset.tool)));
+$("refreshKpi").addEventListener("click",healthKPI);
+$("calcEpi").addEventListener("click",epidemiology);
+$("runTest").addEventListener("click",runTest);
+$("runCorr").addEventListener("click",correlationResult);
+$("runReg").addEventListener("click",regression);
+$("runCM").addEventListener("click",confusion);
+$("runROC").addEventListener("click",roc);
+$("runOutlier").addEventListener("click",outlier);
+$("runAnomaly").addEventListener("click",anomaly);
+
+loadData(parseCSV(sampleCSV),"built-in hospital sample");
+
+/* ========================= Version 5 JS ========================= */
+let examState=null, vivaState=null;
+function showResearchTool(tool){
+  document.querySelectorAll('.research-view').forEach(v=>v.classList.add('hidden'));
+  const target=$('research-'+tool); if(target)target.classList.remove('hidden');
+  document.querySelectorAll('.research-tab').forEach(b=>b.classList.toggle('active',b.dataset.research===tool));
+  if(tool==='chat' && !$('chatBox').children.length) addChat('ai','Hello. I can inspect the loaded dataset and explain patterns, methods, visual choices and limitations. I will not invent results.');
+}
+function setupResearchSelects(){
+  const n=numericColumns(),c=categoricalColumns(),d=dateColumns();
+  ['reportOutcome','storyMeasure'].forEach(id=>fillAnalyticsSelect(id,n));
+  ['reportGroup','storyGroup'].forEach(id=>fillAnalyticsSelect(id,c.length?c:columns));
+  ['reportTime','storyTime'].forEach(id=>fillAnalyticsSelect(id,d));
+  if(n.length){$('reportOutcome').value=n[0];$('storyMeasure').value=n[0];}
+  if(c.length){$('reportGroup').value=c[0];$('storyGroup').value=c[0];}
+  if(d.length){$('reportTime').value=d[0];$('storyTime').value=d[0];}
+  populateVivaQuestions();
+}
+function researchPlan(){
+  if(!rows.length){$('researchAnswer').innerHTML='<div class="alert-warn">Load a dataset first.</div>';return}
+  const q=$('researchQuestion').value.trim()||'Describe the important pattern in this dataset.';
+  const t=types(), outcome=t.numeric[0], group=t.categorical[0], time=t.dates[0];
+  let method='Start with descriptive statistics and visualization.';
+  if(group&&outcome) method='Compare the numeric outcome across groups with grouped summaries; if assumptions and design support inference, consider an appropriate two-group test or ANOVA.';
+  else if(time&&outcome) method='Inspect the outcome over ordered time with a line chart; consider trend/seasonality before formal modelling.';
+  const design=$('researchDesign').value;
+  $('researchMethod').innerHTML=`<b>Candidate approach</b><br>${esc(method)}<br><br><b>Available fields</b><br>${t.numeric.length} numeric • ${t.categorical.length} categorical • ${t.dates.length} date-like`;
+  $('researchAnswer').innerHTML=`<h3>Research framing</h3><p><b>Question:</b> ${esc(q)}</p><p><b>Context:</b> ${esc(design)}.</p><div class="story-step"><b>1. Define the unit of analysis</b><br>Clarify what one row represents and whether repeated observations exist.</div><div class="story-step"><b>2. Describe the data</b><br>Report n, variable types, missingness, distributions and important subgroup counts before testing.</div><div class="story-step"><b>3. Select the method</b><br>${esc(method)}</div><div class="story-step"><b>4. Interpret carefully</b><br>Separate descriptive association from causal claims. Report uncertainty and clinically or operationally meaningful effect size where appropriate.</div><div class="story-step"><b>5. Check limitations</b><br>Consider missing data, selection bias, measurement error, confounding, temporality and generalisability.</div><p class="mini">Detected example fields: outcome <b>${esc(outcome||'not detected')}</b>, group <b>${esc(group||'not detected')}</b>, time <b>${esc(time||'not detected')}</b>. These are suggestions, not proof that the fields have those research roles.</p>`;
+}
+const examBank={
+ viz:[['Which chart is usually best for comparing discrete healthcare categories?',['Line','Bar','Pie always','Scatter'],1,'A bar chart makes category magnitudes easy to compare.'],['What should you ask before choosing a visual?',['Which chart looks attractive?','How many colors can I use?','What analytical question must the visual answer?','Can I use 3D?'],2,'The question should drive the visual choice.']],
+ stats:[['Which test compares the means of two independent groups?',['Chi-square','Independent two-group t-test','Correlation','ROC'],1,'The independent t-test compares two independent group means.'],['What does a p-value primarily describe?',['Clinical importance','Evidence against a specified null model under assumptions','Causality','Data quality'],1,'A p-value is not a measure of clinical importance or causality.']],
+ epi:[['Case fatality proportion is calculated as:',['Deaths / cases','Cases / population','Cases / person-time','Population / cases'],0,'Case fatality proportion uses deaths among cases.'],['Why is a denominator essential in healthcare rates?',['It adds color','It gives the count context and scale','It proves causation','It removes bias'],1,'Counts without denominators can be misleading.']],
+ research:[['What is confounding?',['Random variation only','A third variable related to exposure and outcome that distorts their association','A missing chart','A p-value'],1,'Confounding can create, hide or distort an observed association.'],['Why should study design be stated before interpretation?',['To choose colors','Because design affects what claims are justified','To increase sample size','To guarantee significance'],1,'Design and temporality constrain causal interpretation.']],
+ ml:[['Sensitivity is:',['TN/(TN+FP)','TP/(TP+FN)','TP/(TP+FP)','TN/(TN+FN)'],1,'Sensitivity is the proportion of actual positives correctly identified.'],['AUC summarizes:',['Calibration only','Discrimination across score thresholds','Missingness','Sample size'],1,'AUC summarizes ranking/discrimination across thresholds.']]
+};
+function startExam(){
+  const topic=$('examTopic').value, diff=$('examDifficulty').value; let qs=[...(examBank[topic]||examBank.viz)];
+  if(diff==='hard')qs=qs.concat(examBank.stats.slice(0,1));
+  examState={qs,answers:{}};
+  $('examResult').innerHTML=`<div class="card"><div class="mini">${qs.length} questions • ${esc(diff)} difficulty • Answer all, then submit.</div>${qs.map((q,i)=>`<div class="exam-q" id="eq${i}"><b>${i+1}. ${esc(q[0])}</b>${q[1].map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}">${esc(o)}</label>`).join('')}</div>`).join('')}<button class="btn primary" id="submitExam">Submit exam</button></div>`;
+  $('submitExam').addEventListener('click',gradeExam);
+}
+function gradeExam(){let score=0;examState.qs.forEach((q,i)=>{const chosen=document.querySelector(`input[name=q${i}]:checked`);const ok=chosen&&Number(chosen.value)===q[2];if(ok)score++;const box=$('eq'+i);box.classList.toggle('correct',!!ok);box.classList.toggle('wrong',!ok);const old=box.querySelector('.explain');if(old)old.remove();box.insertAdjacentHTML('beforeend',`<div class="mini explain" style="margin-top:8px"><b>${ok?'Correct':'Review'}:</b> ${esc(q[3])}${!ok?` Correct answer: <b>${esc(q[1][q[2]])}</b>.`:''}</div>`);});$('examResult').insertAdjacentHTML('afterbegin',`<div class="card"><span class="score-big">${score}/${examState.qs.length}</span><div class="mini">Score ${(score/examState.qs.length*100).toFixed(0)}% • Review explanations below.</div></div>`);}
+const vivaBank={
+ study:[
+  ['What is the first thing you should clarify about a dataset?','Define what one row represents, the population, variables, time period and the research question.','What bias could arise if rows are repeated measurements?'],
+  ['Can you claim causation from a descriptive association?','No. Causal claims require appropriate design, temporality, confounding control and other assumptions.','What design would strengthen causal inference?']
+ ],
+ sampling:[['Why does sampling matter?','Sampling determines who is represented and therefore affects precision, selection bias and generalisability.','What is the difference between random sampling and convenience sampling?']],
+ bias:[['Name three threats to observational interpretation.','Selection bias, information/measurement bias and confounding are common threats.','How would you assess whether confounding is plausible?']],
+ tests:[['Why choose ANOVA instead of repeated t-tests for several groups?','ANOVA provides an overall test of whether group means differ while avoiding the repeated-testing problem of many pairwise t-tests.','What should follow a significant ANOVA if pairwise differences matter?']],
+ regression:[['What does a regression coefficient mean?','It describes the expected change in the outcome associated with a one-unit change in the predictor, conditional on the model specification.','Why does a coefficient not automatically prove causation?']],
+ diagnostic:[['What does sensitivity measure?','Among people who truly have the condition, sensitivity is the proportion correctly classified positive.','When might high sensitivity be especially valuable?']],
+ visual:[['Why is a line chart suitable for time?','The connected line emphasizes ordered change over time and makes trends easier to see.','What can make a time trend misleading?']]
+};
+function populateVivaQuestions(){const topic=$('vivaTopic').value, qs=vivaBank[topic]||vivaBank.study;$('vivaQuestion').innerHTML=qs.map((q,i)=>new Option((i+1)+'. '+q[0],i)).join('');}
+function newViva(){populateVivaQuestions();const q=vivaBank[$('vivaTopic').value][Number($('vivaQuestion').value)||0];vivaState=q;$('vivaResult').innerHTML=`<h3>Examiner:</h3><p><b>${esc(q[0])}</b></p><p class="mini">Answer first without opening the model answer. Then click <b>Show model answer</b>.</p>`;}
+function showViva(){if(!vivaState){newViva();return}$('vivaResult').innerHTML=`<h3>Examiner:</h3><p><b>${esc(vivaState[0])}</b></p><div class="story-step"><b>Model answer:</b><br>${esc(vivaState[1])}</div><div class="callout"><b>Follow-up:</b> ${esc(vivaState[2])}</div>`;}
+function reportHTML(){if(!rows.length)return '';const n=rows.length, t=types(), out=$('reportOutcome').value||t.numeric[0], grp=$('reportGroup').value||t.categorical[0], tim=$('reportTime').value||t.dates[0];const vals=out?cleanNumeric(out):[], mean=vals.length?avg(vals):NaN, sdv=vals.length?sd(vals):NaN, miss=columns.length?rows.reduce((s,r)=>s+columns.filter(c=>String(r[c]??'').trim()==='').length,0)/(n*columns.length)*100:0;let groupRows='';if(grp&&out){const map={};rows.forEach(r=>{if(r[grp]!==''&&isNum(r[out]))(map[r[grp]]??=[]).push(num(r[out]))});groupRows=Object.entries(map).sort((a,b)=>avg(b[1])-avg(a[1])).slice(0,12).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v.length}</td><td>${avg(v).toFixed(2)}</td></tr>`).join('');}return `<h1>${esc($('reportTitle').value||'Healthcare Data Analysis Report')}</h1><p><b>Author:</b> ${esc($('reportAuthor').value||'—')}<br><b>Generated:</b> ${new Date().toLocaleString()}</p><h2>1. Dataset</h2><p>The dataset contains <b>${n}</b> observations and <b>${columns.length}</b> variables. Detected fields: ${t.numeric.length} numeric, ${t.categorical.length} categorical and ${t.dates.length} date-like. Overall missing-cell proportion is <b>${miss.toFixed(1)}%</b>.</p><h2>2. Descriptive findings</h2><p>${out?`For <b>${esc(out)}</b>, the mean is <b>${mean.toFixed(2)}</b> and the standard deviation is <b>${sdv.toFixed(2)}</b> across ${vals.length} numeric observations.`:'No numeric outcome was selected.'}${tim?` The selected time field is <b>${esc(tim)}</b>.`:''}</p>${groupRows?`<h3>Grouped summary: ${esc(grp)}</h3><table class="result-table"><tr><th>Group</th><th>n</th><th>Mean ${esc(out)}</th></tr>${groupRows}</table>`:''}<h2>3. Interpretation</h2><p>These are descriptive observations from the loaded dataset. Differences or associations should be interpreted in relation to study design, measurement quality, missingness, uncertainty and clinically or operationally meaningful effect sizes.</p><h2>4. Limitations</h2><ul><li>Browser calculations are educational and exploratory.</li><li>Automated summaries do not establish causality.</li><li>Confounding, selection bias, measurement error and missing-data mechanisms may affect conclusions.</li><li>Publication-grade analysis should be reproduced in a validated statistical environment with a prespecified analysis plan.</li></ul>`;}
+function generateReport(){if(!rows.length){$('reportPreview').innerHTML='<div class="alert-warn">Load data first.</div>';return} $('reportPreview').innerHTML=reportHTML();}
+function downloadBlob(name,content,type='text/html'){const blob=new Blob([content],{type}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);}
+function downloadReport(){if(!rows.length){generateReport();return}const body=reportHTML();downloadBlob('MedViz_Research_Report.html',`<!doctype html><html><head><meta charset="utf-8"><title>MedViz Research Report</title><style>body{font-family:Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;color:#172033}h1,h2,h3{color:#10265a}.result-table{width:100%;border-collapse:collapse}.result-table th,.result-table td{border:1px solid #ddd;padding:8px;text-align:left}</style></head><body>${body}</body></html>`);}
+function printReport(){if(!rows.length)return;const w=window.open('','_blank');w.document.write(`<!doctype html><html><head><title>MedViz Report</title><style>body{font-family:Arial;max-width:900px;margin:30px auto;line-height:1.6}.result-table{width:100%;border-collapse:collapse}.result-table th,.result-table td{border:1px solid #ccc;padding:7px;text-align:left}</style></head><body>${reportHTML()}</body></html>`);w.document.close();w.focus();setTimeout(()=>w.print(),300);}
+function exportDashboard(){if(!rows.length){$('exportStatus').textContent='Load data first.';return}const t=types(),out=$('reportOutcome').value||t.numeric[0],grp=$('reportGroup').value||t.categorical[0];const filters=typeof activeFilters!=='undefined'?activeFilters:{};const filtered=typeof analysisRows==='function'?analysisRows():rows;const body=`<h1>MedViz Academy — Dashboard Export</h1><p>Generated ${new Date().toLocaleString()}</p><h2>Dataset snapshot</h2><p>${rows.length} rows × ${columns.length} columns. Exported analysis subset: ${filtered.length} rows.</p><h2>Fields</h2><p>Outcome: ${esc(out||'—')} • Group: ${esc(grp||'—')}</p><h2>Active filters</h2><pre>${esc(JSON.stringify(filters,null,2))}</pre><h2>Quick summary</h2><p>${out?`Mean ${esc(out)}: ${avg(cleanNumeric(out)).toFixed(2)}`:'No numeric outcome selected.'}</p><div class="note">Exploratory export. Do not interpret as causal or clinical decision support without validation.</div>`;downloadBlob('MedViz_Dashboard_Export.html',`<!doctype html><html><head><meta charset="utf-8"><title>MedViz Dashboard Export</title><style>body{font-family:Arial;max-width:900px;margin:40px auto;color:#172033}.note{padding:14px;background:#fff7df;border:1px solid #f9df8a;border-radius:10px}pre{background:#f6f8fb;padding:12px;border-radius:8px}</style></head><body>${body}</body></html>`);$('exportStatus').textContent='Dashboard HTML exported locally.';}
+function exportCSV(){const data=typeof analysisRows==='function'?analysisRows():rows;if(!data.length){$('exportStatus').textContent='No rows available for export.';return}const head=columns.join(','), escv=v=>`"${String(v??'').replace(/"/g,'""')}"`;downloadBlob('MedViz_Filtered_Data.csv',[head,...data.map(r=>columns.map(c=>escv(r[c])).join(','))].join('\n'),'text/csv');$('exportStatus').textContent=`Exported ${data.length} rows as CSV.`;}
+function printDashboard(){window.print();}
+function generateStory(){if(!rows.length){$('storyResult').innerHTML='<div class="alert-warn">Load data first.</div>';return}const goal=$('storyQuestion').value,g=$('storyGroup').value,m=$('storyMeasure').value,t=$('storyTime').value;let intro='',signal='',action='';const vals=m?cleanNumeric(m):[];if(goal==='compare'&&g&&m){const map={};rows.forEach(r=>{if(r[g]!==''&&isNum(r[m]))(map[r[g]]??=[]).push(num(r[m]))});const arr=Object.entries(map).map(([k,v])=>({k,mean:avg(v),n:v.length})).sort((a,b)=>b.mean-a.mean);if(arr.length){intro=`The dataset contains ${rows.length} observations. Across ${esc(g)}, ${esc(m)} varies between groups.`;signal=`The highest observed group mean is <b>${esc(arr[0].k)}</b> (${arr[0].mean.toFixed(2)}) and the lowest among the displayed groups is <b>${esc(arr[arr.length-1].k)}</b> (${arr[arr.length-1].mean.toFixed(2)}).`;action='Investigate whether the difference is robust, clinically/operationally meaningful, and explained by case mix or other confounders.';}}else if(goal==='trend'&&t&&m){const pts=rows.filter(r=>isDateLike(r[t])&&isNum(r[m])).sort((a,b)=>Date.parse(a[t])-Date.parse(b[t]));if(pts.length>1){const a=num(pts[0][m]),b=num(pts[pts.length-1][m]),chg=a?((b-a)/Math.abs(a))*100:NaN;intro=`Over the observed period, <b>${esc(m)}</b> was measured across ${pts.length} time-ordered observations.`;signal=`It changed from ${a.toFixed(2)} to ${b.toFixed(2)} (${Number.isFinite(chg)?chg.toFixed(1)+'% change':'change not estimable'}).`;action='Check seasonality, interventions, data-collection changes and denominators before attributing the trend to a cause.';}}else{intro=`Start with the context: this dataset has ${rows.length} observations and ${columns.length} variables.`;signal=vals.length?`The selected measure <b>${esc(m)}</b> has mean ${avg(vals).toFixed(2)} with SD ${sd(vals).toFixed(2)}.`:'Select a numeric measure and relevant grouping/time field for a stronger story.';action='Use the next analytical step to test or stratify the signal rather than stopping at the headline.';}$('storyResult').innerHTML=`<div class="story-step"><b>Context</b><br>${intro}</div><div class="story-step"><b>Signal</b><br>${signal}</div><div class="story-step"><b>Meaning</b><br>Describe the pattern without implying causation unless the study design supports it.</div><div class="story-step"><b>Action / next question</b><br>${action}</div>`;}
+function addChat(who,msg){const box=$('chatBox');box.insertAdjacentHTML('beforeend',`<div class="chat-msg ${who==='user'?'chat-user':'chat-ai'}"><b>${who==='user'?'You':'Analyst'}:</b> ${msg}</div>`);box.scrollTop=box.scrollHeight;}
+function analystAnswer(q){const x=q.toLowerCase();if(!rows.length)return'Load a dataset first. I can then inspect its fields and calculate local summaries.';const t=types();if(x.includes('missing')){const total=rows.length*columns.length,miss=rows.reduce((s,r)=>s+columns.filter(c=>String(r[c]??'').trim()==='').length,0);return`There are ${miss} missing cells out of ${total} cells (${(miss/total*100).toFixed(1)}%). Check which variables have concentrated missingness before deciding how to handle it.`;}if(x.includes('caus'))return'You should not claim causation from a descriptive association alone. Check temporality, study design, confounding, selection and measurement issues.';if(x.includes('visual')||x.includes('chart')){if(t.dates.length&&t.numeric.length)return`For a time-related question, start with a line chart using ${esc(t.dates[0])} and a numeric measure such as ${esc(t.numeric[0])}. For category comparison, use a bar chart.`;return'Choose the visual from the question: bar for category comparison, line for ordered time, scatter for two numeric variables, and pie only for a small meaningful part-to-whole composition.';}if(x.includes('highest')||x.includes('maximum')){if(t.categorical.length&&t.numeric.length){const g=t.categorical[0],m=t.numeric[0],map={};rows.forEach(r=>{if(r[g]!==''&&isNum(r[m]))(map[r[g]]??=[]).push(num(r[m]))});const a=Object.entries(map).map(([k,v])=>[k,avg(v)]).sort((a,b)=>b[1]-a[1]);return a.length?`Using ${esc(g)} and mean ${esc(m)}, the highest observed group is ${esc(a[0][0])} (${a[0][1].toFixed(2)}). This is descriptive; check sample size and uncertainty.`:'I cannot identify a highest group with the current fields.';}}if(x.includes('mean')||x.includes('average')){if(t.numeric.length){const c=t.numeric[0];return`The mean of ${esc(c)} is ${avg(cleanNumeric(c)).toFixed(2)} across ${cleanNumeric(c).length} numeric observations.`;}}if(x.includes('sample')||x.includes('n'))return`There are ${rows.length} rows and ${columns.length} variables. Detected ${t.numeric.length} numeric, ${t.categorical.length} categorical and ${t.dates.length} date-like fields.`;if(x.includes('regression'))return`Regression can quantify an association between a numeric outcome and predictor, but the coefficient should be interpreted in the model's units and does not by itself establish causality.`;if(x.includes('sensitivity'))return' sensitivity is TP/(TP+FN): among truly positive cases, it is the proportion correctly identified as positive.';return`I can answer questions about this dataset's structure, missingness, descriptive summaries, chart choice, common statistical methods and interpretation. Try asking “What is missing?”, “Which group is highest?”, or “What chart should I use?”`}
+function sendChat(){const q=$('chatInput').value.trim();if(!q)return;addChat('user',esc(q));$('chatInput').value='';addChat('ai',analystAnswer(q));}
+function refreshResearchAfterData(){if(typeof setupResearchSelects==='function')setupResearchSelects();}
+
+document.querySelectorAll('.research-tab').forEach(b=>b.addEventListener('click',()=>showResearchTool(b.dataset.research)));
+$('runResearch').addEventListener('click',researchPlan);$('startExam').addEventListener('click',startExam);$('vivaTopic').addEventListener('change',populateVivaQuestions);$('newViva').addEventListener('click',newViva);$('showViva').addEventListener('click',showViva);$('generateReport').addEventListener('click',generateReport);$('printReport').addEventListener('click',printReport);$('downloadReport').addEventListener('click',downloadReport);$('exportDashboard').addEventListener('click',exportDashboard);$('exportCSV').addEventListener('click',exportCSV);$('exportPrint').addEventListener('click',printDashboard);$('generateStory').addEventListener('click',generateStory);$('sendChat').addEventListener('click',sendChat);$('clearChat').addEventListener('click',()=>{$('chatBox').innerHTML='';addChat('ai','Chat cleared. Ask me about the current dataset.');});$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+const _refreshHA=refreshHealthcareAnalytics;
+refreshHealthcareAnalytics=function(){_refreshHA();refreshResearchAfterData();};
+
+
+/* ================= MedViz Academy Version 6 — Ultimate Research + AI (built on V5) ================= */
+const V6K='medviz_v6_progress';let V6={done:{},st:{},lvl:'exam',last:''},cur='';
+try{V6.done=JSON.parse(localStorage.getItem(V6K))||{}}catch(e){}
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const g=id=>($('v6_'+id)||{}).value||'';
+const REQ='<span class="v6req">[Information required]</span>';
+const R={},A={};
+function toast(m){const t=$('v6toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),2500)}
+const MODS=[['rq','31 · Research Question'],['design','32 · Study Design'],['vars','33 · Variables'],['plan','34 · Analysis Planner'],['eff','36–37 · Effect Size + CI'],['ss','38 · Sample Size'],['det','48 · Dataset Detective'],['qa','50 · Quality Check'],['chat','AI-style Analyst']];
+function done(k){if(!V6.done[k]){V6.done[k]=1;try{localStorage.setItem(V6K,JSON.stringify(V6.done))}catch(e){}}updProg()}
+function updProg(){const n=MODS.filter(m=>V6.done[m[0]]).length,p=Math.round(n/MODS.length*100),f=Math.round(p/100*12);$('v6prog').textContent='█'.repeat(f)+'░'.repeat(12-f)+' '+p+'%';$('v6progbar').style.width=p+'%';$$('#v6tabs button').forEach(b=>b.classList.toggle('done',!!V6.done[b.dataset.m]))}
+const fld=(id,l,v='')=>`<div><label for="v6_${id}">${l}</label><input id="v6_${id}" type="text" value="${v}"></div>`;
+const sel=(id,l,o)=>`<div><label for="v6_${id}">${l}</label><select id="v6_${id}">${o.map(x=>Array.isArray(x)?`<option value="${x[0]}">${x[1]}</option>`:`<option>${x}</option>`).join('')}</select></div>`;
+const noData=()=>`<div class="v6empty"><div style="font-size:34px">🗂️</div><b>No dataset loaded</b><p class="mini">Load data to use this module. 🔒 It stays in this browser session.</p><button class="btn primary" data-a="sample">Load hospital sample</button></div>`;
+const head=(t,s)=>`<div class="v6head"><div><h3>${t}</h3><p class="mini">${s}</p></div><div class="btnrow" style="margin:0"><button class="btn secondary" data-a="reset" title="Reset this module">↺ Reset</button></div></div>`;
+const nv=c=>analysisRows().map(r=>r[c]).filter(isNum).map(num);
+function show(m){cur=m;$$('#v6tabs button').forEach(b=>{b.classList.toggle('active',b.dataset.m===m);b.setAttribute('aria-selected',b.dataset.m===m)});$('v6body').innerHTML=R[m]();if((m==='vars'||m==='det')&&rows.length)done(m);$('v6crumb').textContent='MedViz Academy › Ultimate Research + AI › '+MODS.find(x=>x[0]===m)[1];if(m==='chat'&&!$('v6chatbox').children.length)aiSay('Hello. I answer only from the loaded dataset, current filters and built-in teaching notes. I am a rule-based analyst, not a language model.')}
+function go(sec,tool){setSection(sec);if(sec==='research'&&tool)showResearchTool(tool);if(sec==='analytics'&&tool)showAnalyticsTool(tool);if(sec==='insights'&&tool)switchInsight(tool)}
+
+/* ---- 31 Research Question Builder ---- */
+R.rq=()=>head('31 · Research Question Builder','Fill what you know; blanks stay marked [Information required]. No clinical facts are invented.')+`<div class="analytics-controls">${[['P','Population'],['E','Exposure / intervention'],['C','Comparison'],['O','Outcome'],['S','Setting'],['T','Time frame']].map(([k,l])=>fld(k,l)).join('')}${sel('tpl','Template',['PICO','PECO','PICOT','Descriptive','Analytical','Diagnostic','Prognostic'])}</div><div class="btnrow"><button class="btn primary" data-a="rqBuild">Build structured question</button></div><div id="v6out" class="ai-answer" style="margin-top:12px" aria-live="polite">Your structured question appears here. Tip: type a dataset column name as the outcome.</div>`;
+A.rqBuild=()=>{const v=k=>g(k).trim()?esc(g(k).trim()):REQ,t=g('tpl'),P=v('P'),E=v('E'),C=v('C'),O=v('O'),S=v('S'),T=v('T');
+const q={PICO:`In ${P}, does ${E} compared with ${C} affect ${O}?`,PECO:`In ${P}, is exposure to ${E} (versus ${C}) associated with ${O}?`,PICOT:`In ${P} (${S}), does ${E} compared with ${C} affect ${O} over ${T}?`,Descriptive:`What is the frequency or distribution of ${O} among ${P} in ${S} during ${T}?`,Analytical:`Is ${E} associated with ${O} among ${P}, compared with ${C}?`,Diagnostic:`Among ${P}, how accurately (sensitivity, specificity) does ${E} detect ${O}, using ${C} as the reference standard?`,Prognostic:`Among ${P}, does ${E} predict ${O} within ${T}?`}[t];
+const why={PICO:'PICO suits intervention questions: it forces a defined population, an intervention, a comparator and a measurable outcome.',PECO:'PECO replaces "intervention" with a naturally occurring exposure, appropriate for observational designs.',PICOT:'PICOT adds time, because the follow-up period determines which outcomes can be observed.',Descriptive:'A descriptive question has no comparison; it asks about frequency or distribution in a defined population, place and time.',Analytical:'An analytical question names an exposure and outcome so an association can be tested; it should be framed as association, not causation.',Diagnostic:'Diagnostic questions need an index test, a target condition and a reference standard.',Prognostic:'Prognostic questions need a predictor, an outcome and a time horizon.'}[t];
+$('v6out').innerHTML=`<b>Research question</b><p>${q}</p><table class="result-table"><tr><th>Population</th><td>${P}</td></tr><tr><th>Exposure / intervention</th><td>${E}</td></tr><tr><th>Comparison</th><td>${C}</td></tr><tr><th>Outcome</th><td>${O}</td></tr><tr><th>Setting</th><td>${S}</td></tr><tr><th>Time</th><td>${T}</td></tr></table><div class="callout" style="margin-top:10px"><b>Why this structure?</b> ${why}</div>`;V6.st.rq=!!(g('P').trim()&&g('O').trim());done('rq');toast('Question built')};
+
+/* ---- 32 Study Design Advisor ---- */
+const DES={cross:['Cross-sectional','Measures exposure and outcome at one point in time; suited to prevalence.','Fast, inexpensive, good for prevalence and planning.','Cannot establish temporality; prevalence–incidence bias.','Selection, recall, prevalence–incidence (Neyman) bias.','Prevalence with CI; chi-square; prevalence ratio / logistic regression.'],cc:['Case-control','Starts from people with and without the outcome and looks back at exposure; efficient for rare outcomes.','Efficient for rare diseases and many exposures.','Cannot give incidence; vulnerable to recall and control-selection problems.','Recall bias, selection bias of controls.','Odds ratio; conditional or unconditional logistic regression.'],cohort:['Cohort','Follows exposed and unexposed groups over time to compare outcome occurrence.','Establishes temporality; gives incidence and relative risk.','Costly and slow; loss to follow-up; inefficient for rare outcomes.','Selection, loss to follow-up, confounding, misclassification.','Risk ratio, rate ratio; Kaplan–Meier, Cox or Poisson regression.'],rct:['Randomized controlled trial','Investigators assign the intervention at random, which balances measured and unmeasured confounders on average.','Strongest design for intervention effects.','Costly, ethical limits, restricted generalisability.','Performance, detection and attrition bias if not blinded or followed fully.','Intention-to-treat comparison of risks or means with CI.'],eco:['Ecological','Compares group-level (area/time) data rather than individuals.','Uses routine data; cheap and quick.','Cannot infer individual-level effects.','Ecological fallacy; confounding by area.','Correlation / regression on group-level rates.'],diag:['Diagnostic accuracy study','Compares an index test with a reference standard in the same people.','Directly estimates sensitivity and specificity.','Spectrum and verification bias threaten validity.','Spectrum, verification, incorporation bias.','Sensitivity, specificity, predictive values, likelihood ratios, ROC/AUC with CIs.'],sr:['Systematic review / meta-analysis','Summarises existing studies using a pre-specified search and appraisal protocol.','Uses all available evidence; quantifies heterogeneity.','Limited by quality of included studies.','Publication bias, selection of studies.','Pooled effect (fixed/random), I², funnel plot.']};
+R.design=()=>head('32 · Study Design Advisor','Rule-based educational guidance — not a substitute for a formal protocol.')+`<div class="analytics-controls">${sel('q','Main research question',[['prev','How common is it? (prevalence)'],['assoc','Is a risk factor associated with an outcome?'],['interv','Does an intervention work?'],['acc','How accurate is a test?'],['pop','Do population-level rates relate?'],['syn','What does existing evidence say?']])}${sel('rare','Rare disease/outcome?',[['n','No'],['y','Yes']])}${sel('rnd','Can you randomize?',[['n','No'],['y','Yes']])}${sel('fu','Need follow-up over time?',[['n','No'],['y','Yes']])}${sel('time','Time orientation',[['now','Present (one time point)'],['retro','Retrospective'],['prosp','Prospective']])}</div><div class="btnrow"><button class="btn primary" data-a="desRun">Recommend design</button></div><div id="v6out" class="ai-answer" style="margin-top:12px" aria-live="polite">Choose inputs and click Recommend.</div>`;
+A.desRun=()=>{const q=g('q'),rare=g('rare')==='y',rnd=g('rnd')==='y',fu=g('fu')==='y',t=g('time'),s={cross:0,cc:0,cohort:0,rct:0,eco:0,diag:0,sr:0};
+if(q==='prev')s.cross+=5;if(q==='assoc'){s.cc+=2;s.cohort+=3;s.cross+=2}if(q==='interv'){s.rct+=4;s.cohort+=2}if(q==='acc')s.diag+=7;if(q==='pop')s.eco+=7;if(q==='syn')s.sr+=7;
+if(rnd&&q==='interv')s.rct+=4;if(!rnd)s.rct-=6;if(rare){s.cc+=3;s.cohort-=2}if(fu){s.cohort+=2;s.rct+=1;s.cross-=3;s.cc-=1}else s.cross+=1;if(t==='retro'){s.cc+=2;s.cohort+=1}if(t==='prosp'){s.cohort+=2;s.rct+=1}
+const rk=Object.entries(s).sort((a,b)=>b[1]-a[1]),d=DES[rk[0][0]];
+$('v6out').innerHTML=`<b>Recommended design: ${d[0]}</b><table class="result-table"><tr><th>Why</th><td>${d[1]}</td></tr><tr><th>Strengths</th><td>${d[2]}</td></tr><tr><th>Limitations</th><td>${d[3]}</td></tr><tr><th>Typical bias</th><td>${d[4]}</td></tr><tr><th>Typical analysis</th><td>${d[5]}</td></tr></table><p class="mini">Alternatives (rule points, not probabilities): ${rk.slice(1,3).map(x=>DES[x[0]][0]+' ('+x[1]+')').join(', ')}</p><div class="callout">Educational guidance only — not a substitute for a formal protocol and statistician review.</div>`;V6.st.design=d[0];done('design')};
+
+/* ---- shared column profile ---- */
+function prof(c){const t=types(),v=rows.map(r=>String(r[c]??'').trim()).filter(x=>x!==''),cnt={};v.forEach(x=>cnt[x]=(cnt[x]||0)+1);const u=Object.keys(cnt).length,isN=t.numeric.includes(c),isD=t.dates.includes(c),top=Math.max(0,...Object.values(cnt))/(v.length||1),mp=rows.length?(1-v.length/rows.length)*100:0,idn=/(^|[^a-z])(id|mrn|uhid|serial|sno|srno)([^a-z]|$)|patientno|recordno|[a-z]id$/i.test(c),idLike=idn||(u===rows.length&&rows.length>10&&!isD&&!isN?true:u===rows.length&&rows.length>10&&isN&&v.every(x=>Number.isInteger(num(x))));return{v,cnt,u,isN,isD,top,mp,idLike}}
+
+/* ---- 33 Variable & Measurement Advisor ---- */
+R.vars=()=>{if(!rows.length)return noData();const used=['xcol','ycol','corrX','corrY','regX','regY','testY','testGroup'].map(i=>($(i)||{}).value);
+return head('33 · Variable & Measurement Advisor','Heuristic suggestions from names and values. You decide each variable\'s role.')+`<div style="overflow:auto"><table class="result-table"><tr><th>Variable</th><th>Type</th><th>Scale (suggested)</th><th>Possible role</th><th>Missing</th><th>Unique</th><th>Suggested handling</th><th>Warnings</th></tr>${columns.map(c=>{const p=prof(c),w=[],ints=p.isN&&p.v.every(x=>Number.isInteger(num(x)));
+let sc,role,hd;if(p.idLike){sc='Nominal (identifier)';role='Identifier';hd='Exclude from analysis'}else if(p.isD){sc='Interval (date)';role='Time variable';hd='Trend / period grouping'}else if(p.isN){sc=p.u<=2?'Nominal (binary)':(ints&&p.u<=7?'Ordinal (coded?)':(Math.min(...p.v.map(num))>=0?'Ratio':'Interval'));hd='Mean ± SD if symmetric; median (IQR) if skewed';role=/outcome|death|mortal|readmi|satisf|surviv|stay|wait|cost/i.test(c)?'Outcome candidate':/age|sex|gender|bmi|severity/i.test(c)?'Confounder candidate':'Outcome / exposure / covariate'}else{sc=[...Object.keys(p.cnt)].every(x=>/^(low|medium|moderate|high|mild|severe|none|stage|grade)/i.test(x))?'Ordinal':'Nominal';hd='n (%); chi-square for associations';role=/group|treat|arm|exposure|smok/i.test(c)?'Exposure candidate':/sex|gender|region|dept|department|ward|severity/i.test(c)?'Confounder / effect-modifier candidate':'Exposure / covariate'}
+if(p.idLike){w.push('Identifier — do not analyse');if(used.includes(c))w.push('currently selected in an analysis!')}if(p.top>=.95&&p.v.length>1)w.push('Near-constant');if(p.mp>20)w.push('High missingness');if(!p.isN&&!p.isD&&(p.u>50||(p.u>.5*p.v.length&&p.v.length>20)))w.push('Very high cardinality');if(p.isN&&ints&&p.u<=7&&p.u>2)w.push('Numeric-looking categorical?');
+return`<tr><td><b>${esc(c)}</b></td><td>${p.isD?'Date':p.isN?'Numeric':'Categorical'}</td><td>${sc}</td><td>${role}</td><td>${p.mp.toFixed(1)}%</td><td>${p.u}</td><td>${hd}</td><td>${w.length?w.map(x=>`<span class="v6warn">${x}</span>`).join(' '):'—'}</td></tr>`}).join('')}</table></div>`};
+
+/* ---- 34 Statistical Analysis Planner ---- */
+const W={t:['Independent t-test (Welch); Mann–Whitney U if clearly non-normal','Compares two group means','Independent observations; roughly normal outcome per group or adequate n','Mean difference with CI shows magnitude; p-value is evidence against equal means','tests'],an:['One-way ANOVA; Kruskal–Wallis if non-normal','Compares means across ≥3 groups','Independence; approx. normality; similar variances','F tests whether any mean differs; follow with post-hoc comparisons','tests'],cor:['Pearson correlation / simple linear regression (Spearman if non-linear or ordinal)','Quantifies a linear association','Linearity; no extreme outliers; independence','r gives direction and strength; association is not causation','corr'],lin:['Multiple linear regression','Adjusts a continuous outcome for several predictors','Linearity; independent, roughly normal, constant-variance residuals; low collinearity','Each coefficient is the mean change in outcome per unit predictor, holding others fixed','reg'],chi:['Chi-square test (Fisher exact if sparse) with risk ratio / odds ratio','Tests association between categorical variables','Independent observations; expected counts mostly ≥5','Effect measure (RR/OR with CI) shows magnitude','tests'],log:['Logistic regression','Models a binary outcome with one or more predictors','Independent observations; adequate events per predictor; linear logit for continuous predictors','exp(coefficient) is an odds ratio','' ],mn:['Multinomial logistic regression','Models an unordered categorical outcome','Independence; adequate sample per category','Relative risk ratios versus a reference category',''],mw:['Mann–Whitney U','Rank-based comparison of two groups','Independent observations; similar distribution shape','Tests whether one group tends to have higher values',''],kw:['Kruskal–Wallis','Rank-based comparison of ≥3 groups','Independent observations','Tests whether groups differ in rank distribution',''],sp:['Spearman rank correlation','Monotonic association for ordinal data','Monotonic relationship','ρ gives direction and strength of rank association',''],ol:['Ordinal logistic regression','Models an ordered outcome','Proportional-odds assumption','Odds of being in a higher category',''],po:['Poisson or negative binomial regression','Models counts or rates','Independent counts; check over-dispersion','exp(coefficient) is a rate ratio',''],km:['Kaplan–Meier curves with log-rank test','Compares time-to-event across groups','Non-informative censoring; independent observations','Survival curves and a test of difference',''],cox:['Cox proportional hazards regression','Models hazard of an event with predictors','Proportional hazards; non-informative censoring','exp(coefficient) is a hazard ratio','']};
+const PL={'cont|cont':'cor','cont|multi':'lin','cont|cat':'an','cont|bin':'t','bin|bin':'chi','bin|cat':'chi','bin|cont':'log','bin|multi':'log','cat|bin':'chi','cat|cat':'chi','cat|cont':'mn','cat|multi':'mn','ord|bin':'mw','ord|cat':'kw','ord|cont':'sp','ord|multi':'ol','count|bin':'po','count|cat':'po','count|cont':'po','count|multi':'po','tte|bin':'km','tte|cat':'km','tte|cont':'cox','tte|multi':'cox'};
+R.plan=()=>head('34 · Statistical Analysis Planner','Recommends a method. It has NOT run any analysis unless you use the linked app tool.')+`<div class="analytics-controls">${sel('oc','Outcome type',[['cont','Continuous'],['bin','Binary'],['cat','Categorical'],['ord','Ordinal'],['count','Count'],['tte','Time-to-event']])}${sel('pr','Predictor type',[['cont','Continuous'],['bin','Binary'],['cat','Categorical (≥3 groups)'],['multi','Multiple predictors']])}</div><div class="btnrow"><button class="btn primary" data-a="planRun">Recommend method</button></div><div id="v6out" class="ai-answer" style="margin-top:12px" aria-live="polite">Choose outcome and predictor types.</div>`;
+A.planRun=()=>{const k=PL[g('oc')+'|'+g('pr')],w=W[k];$('v6out').innerHTML=`<b>${w[0]}</b><table class="result-table"><tr><th>WHY this test?</th><td>${w[1]}</td></tr><tr><th>KEY assumptions</th><td>${w[2]}</td></tr><tr><th>WHAT the result means</th><td>${w[3]}</td></tr></table>${w[4]?`<div class="btnrow"><button class="btn success" data-a="goTool" data-t="${w[4]}">Open this tool in the app (Version 3)</button></div>`:'<p class="mini">This method is not implemented in the app; use validated statistical software.</p>'}`;done('plan')};
+A.goTool=b=>go('analytics',b.dataset.t);
+
+/* ---- 36–37 Effect size + CI lab ---- */
+const tq=df=>{const z=1.96;return z+(z**3+z)/(4*df)+(5*z**5+16*z**3+3*z)/(96*df*df)};
+R.eff=()=>head('36–37 · Effect Size + Confidence Interval Lab','Effect size = magnitude · p-value = evidence against the null · Confidence interval = precision.')+`<div class="grid"><div class="card span-6"><h3>Two means</h3><div class="analytics-controls" style="grid-template-columns:repeat(3,1fr)">${fld('m1','Mean 1')}${fld('s1','SD 1')}${fld('n1','n 1')}${fld('m2','Mean 2')}${fld('s2','SD 2')}${fld('n2','n 2')}</div><div class="btnrow"><button class="btn primary" data-a="effMean">Calculate</button></div><div id="v6o1" class="mini" style="margin-top:8px"></div></div><div class="card span-6"><h3>2×2 table (OR, RR, RD)</h3><div class="analytics-controls" style="grid-template-columns:repeat(2,1fr)">${fld('a','Exposed, event (a)')}${fld('b','Exposed, no event (b)')}${fld('c','Unexposed, event (c)')}${fld('d','Unexposed, no event (d)')}</div><div class="btnrow"><button class="btn primary" data-a="effTab">Calculate</button></div><div id="v6o2" class="mini" style="margin-top:8px"></div></div><div class="card span-6"><h3>Correlation</h3><div class="analytics-controls" style="grid-template-columns:repeat(2,1fr)">${fld('r','r (−1 to 1)')}${fld('nr','n')}</div><div class="btnrow"><button class="btn primary" data-a="effCor">Calculate</button></div><div id="v6o3" class="mini" style="margin-top:8px"></div></div><div class="card span-6"><h3>How to read these</h3><p class="mini"><b>Effect size</b> tells how big a difference is. <b>p-value</b> tells how surprising the data would be if the null were true — not how large or important the effect is. <b>CI</b> shows the range of values compatible with the data; a wide CI means imprecision. p-values need a reference distribution, so this lab reports CIs; use Version 3 Statistical Tests for p-values.</p></div></div>`;
+const N=id=>parseFloat(g(id));const f2=x=>Number.isFinite(x)?x.toFixed(2):'—';
+A.effMean=()=>{const[m1,s1,n1,m2,s2,n2]=['m1','s1','n1','m2','s2','n2'].map(N);if([m1,s1,n1,m2,s2,n2].some(x=>!Number.isFinite(x))||n1<2||n2<2||s1<=0||s2<=0){$('v6o1').innerHTML='⚠️ Enter all six values (n ≥ 2, SD > 0).';return}
+const d=m1-m2,se=Math.sqrt(s1*s1/n1+s2*s2/n2),df=se**4/((s1*s1/n1)**2/(n1-1)+(s2*s2/n2)**2/(n2-1)),tc=tq(df),sp=Math.sqrt(((n1-1)*s1*s1+(n2-1)*s2*s2)/(n1+n2-2)),cd=d/sp,sed=Math.sqrt((n1+n2)/(n1*n2)+cd*cd/(2*(n1+n2))),hg=cd*(1-3/(4*(n1+n2)-9));
+$('v6o1').innerHTML=`Mean difference = ${f2(d)} (95% CI ${f2(d-tc*se)} to ${f2(d+tc*se)}; Welch df ≈ ${df.toFixed(1)})<br>Cohen's d = ${f2(cd)} (approx. 95% CI ${f2(cd-1.96*sed)} to ${f2(cd+1.96*sed)}); Hedges' g ≈ ${f2(hg)}<br>${(d-tc*se<=0&&d+tc*se>=0)?'The CI includes 0: data are compatible with no difference.':'The CI excludes 0.'} Conventional d labels (0.2 small, 0.5 medium, 0.8 large) are rough guides, not clinical thresholds.`;done('eff')};
+A.effTab=()=>{const[a,b,c,d]=['a','b','c','d'].map(N);if([a,b,c,d].some(x=>!Number.isFinite(x)||x<0)){$('v6o2').innerHTML='⚠️ Enter four non-negative counts.';return}
+const r1=a/(a+b),r0=c/(c+d),rd=r1-r0,sed=Math.sqrt(r1*(1-r1)/(a+b)+r0*(1-r0)/(c+d));let t=`Risk exposed = ${f2(r1*100)}%, risk unexposed = ${f2(r0*100)}%<br>Risk difference = ${f2(rd*100)} percentage points (95% CI ${f2((rd-1.96*sed)*100)} to ${f2((rd+1.96*sed)*100)})<br>`;
+if(a*b*c*d===0)t+='Zero cell: ratio CIs not computed (a continuity correction or exact methods are needed).';else{const rr=r1/r0,ser=Math.sqrt(1/a-1/(a+b)+1/c-1/(c+d)),or=a*d/(b*c),seo=Math.sqrt(1/a+1/b+1/c+1/d);t+=`Risk ratio = ${f2(rr)} (95% CI ${f2(rr*Math.exp(-1.96*ser))} to ${f2(rr*Math.exp(1.96*ser))})<br>Odds ratio = ${f2(or)} (95% CI ${f2(or*Math.exp(-1.96*seo))} to ${f2(or*Math.exp(1.96*seo))})<br>A CI that includes 1 means the data are compatible with no association. OR approximates RR only when the outcome is rare.`}$('v6o2').innerHTML=t;done('eff')};
+A.effCor=()=>{const r=N('r'),n=N('nr');if(!(Math.abs(r)<1)||!(n>3)){$('v6o3').innerHTML='⚠️ Need |r| < 1 and n > 3.';return}const z=Math.atanh(r),se=1/Math.sqrt(n-3);$('v6o3').innerHTML=`r = ${f2(r)}; 95% CI ${f2(Math.tanh(z-1.96*se))} to ${f2(Math.tanh(z+1.96*se))} (Fisher z); r² = ${f2(r*r)}. A correlation describes association, not causation.`;done('eff')};
+
+/* ---- 38 Sample size learning lab ---- */
+const zq=p=>{let lo=-8,hi=8;for(let i=0;i<80;i++){const m=(lo+hi)/2;normalCDF(m)<p?lo=m:hi=m}return(lo+hi)/2};
+R.ss=()=>head('38 · Sample Size Learning Lab','Formulas and every step are shown. Illustrative calculation — verify using validated statistical software before protocol submission.')+`<div class="analytics-controls">${sel('ssd','Design',[['p1','Single proportion'],['p2','Two proportions'],['m1','Single mean'],['m2','Two means']])}${fld('al','Alpha (two-sided)','0.05')}${fld('pw','Power (two-sample)','0.80')}${fld('pa','Proportion p (or p₁)','0.30')}${fld('pb','p₂ (two proportions)','0.45')}${fld('sg','SD σ (means)','10')}${fld('dl','Margin d / difference δ','0.05')}${fld('nr','Non-response %','10')}</div><div class="btnrow"><button class="btn primary" data-a="ssRun">Calculate</button></div><div id="v6out" class="ai-answer" style="margin-top:12px" aria-live="polite">Enter values and calculate. For a single proportion/mean, d is the absolute precision; for two-sample designs, δ is the difference (means only).</div>`;
+A.ssRun=()=>{const d=g('ssd'),al=N('al'),pw=N('pw'),p=N('pa'),q=N('pb'),sg=N('sg'),dl=N('dl'),nr=N('nr')||0;const za=zq(1-al/2),zb=zq(pw);let f,st,n;const bad=()=>$('v6out').innerHTML='⚠️ Check inputs (alpha, power and proportions must be between 0 and 1; d/δ and σ positive).';
+if(!(al>0&&al<1)||!(nr>=0&&nr<100))return bad();
+if(d==='p1'){if(!(p>0&&p<1&&dl>0))return bad();f='n = Z²·p(1−p) / d²';n=za*za*p*(1-p)/(dl*dl);st=[`Zα/2 = ${za.toFixed(3)}`,`n = ${za.toFixed(3)}² × ${p}×${(1-p).toFixed(3)} / ${dl}² = ${n.toFixed(2)}`]}
+else if(d==='p2'){if(!(p>0&&p<1&&q>0&&q<1&&p!==q&&pw>0&&pw<1))return bad();const pb=(p+q)/2;f='n per group = [Zα/2·√(2p̄q̄) + Zβ·√(p₁q₁+p₂q₂)]² / (p₁−p₂)²';n=(za*Math.sqrt(2*pb*(1-pb))+zb*Math.sqrt(p*(1-p)+q*(1-q)))**2/((p-q)**2);st=[`Zα/2 = ${za.toFixed(3)}, Zβ = ${zb.toFixed(3)}`,`p̄ = ${pb.toFixed(3)}`,`n per group = ${n.toFixed(2)}`]}
+else if(d==='m1'){if(!(sg>0&&dl>0))return bad();f='n = (Zα/2·σ / d)²';n=(za*sg/dl)**2;st=[`Zα/2 = ${za.toFixed(3)}`,`n = (${za.toFixed(3)} × ${sg} / ${dl})² = ${n.toFixed(2)}`]}
+else{if(!(sg>0&&dl>0&&pw>0&&pw<1))return bad();f='n per group = 2σ²(Zα/2+Zβ)² / δ²';n=2*sg*sg*(za+zb)**2/(dl*dl);st=[`Zα/2 = ${za.toFixed(3)}, Zβ = ${zb.toFixed(3)}`,`n per group = 2×${sg}²×(${(za+zb).toFixed(3)})² / ${dl}² = ${n.toFixed(2)}`]}
+const c=Math.ceil(n),adj=Math.ceil(c/(1-nr/100));$('v6out').innerHTML=`<b>Formula:</b> ${f}<ol>${st.map(x=>`<li>${x}</li>`).join('')}<li>Round up: ${c}${d==='p2'||d==='m2'?' per group':''}</li><li>Inflate for ${nr}% non-response: ${c} / (1 − ${nr/100}) = ${adj}${d==='p2'||d==='m2'?' per group':''}</li></ol><div class="callout"><b>Final sample size: ${adj}${d==='p2'||d==='m2'?' per group':''}.</b> Illustrative calculation — verify using validated statistical software before protocol submission. Case-control and cohort calculators are not included in this build.</div>`;V6.st.ss=1;done('ss')};
+
+/* ---- 48 Dataset Detective ---- */
+R.det=()=>{if(!rows.length)return noData();const items=[];let pen=0;const add=(p,msg)=>{pen+=p;items.push([p,msg])};
+const tot=rows.length*columns.length;let miss=0;columns.forEach(c=>rows.forEach(r=>{if(String(r[c]??'').trim()==='')miss++}));const mp=miss/tot*100;if(miss)add(Math.min(30,mp*1.5),`${miss} missing cells (${mp.toFixed(1)}%)`);
+const dup=duplicateCount(rows);if(dup)add(Math.min(15,dup/rows.length*200),`${dup} duplicate rows`);
+const flags={const:[],card:[],id:[],mixed:[],imp:[],out:[],date:[],imb:[],case:[],leak:[]};
+columns.forEach(c=>{const p=prof(c),nf=p.v.filter(isNum).length/(p.v.length||1);
+if(p.v.length>1&&p.u===1)flags.const.push(c);if(!p.isN&&!p.isD&&(p.u>50||(p.u>.5*p.v.length&&p.v.length>20)))flags.card.push(c);if(p.idLike)flags.id.push(c);
+if(!p.isD&&nf>.2&&nf<.8)flags.mixed.push(c);
+if(p.isN){const x=p.v.filter(isNum).map(num);let bad=0;if(/age/i.test(c))bad=x.filter(v=>v<0||v>120).length;else if(/percent|pct|satisf/i.test(c))bad=x.filter(v=>v<0||v>100).length;else if(/cases|count|cost|wait|stay|days|weight|height/i.test(c))bad=x.filter(v=>v<0).length;if(bad)flags.imp.push(`${c} (${bad})`);
+if(x.length>=8){const q1=quantile(x,.25),q3=quantile(x,.75),i=q3-q1,o=x.filter(v=>v<q1-1.5*i||v>q3+1.5*i).length;if(o/x.length>.05)flags.out.push(`${c} (${o})`)}}
+if(p.isD){const bad=p.v.filter(v=>Number.isNaN(Date.parse(v))).length,fut=p.v.filter(v=>Date.parse(v)>Date.now()).length;if(bad||fut)flags.date.push(`${c} (${bad} unparsable, ${fut} future)`)}
+if(!p.isN&&!p.isD&&p.u>=2&&p.u<=3&&p.top>.9)flags.imb.push(`${c} (${(p.top*100).toFixed(0)}% one class)`);
+if(!p.isN&&!p.isD){const m={};Object.keys(p.cnt).forEach(k=>{const z=k.toLowerCase().replace(/\s+/g,' ');(m[z]=m[z]||[]).push(k)});if(Object.values(m).some(a=>a.length>1))flags.case.push(c)}
+if(/outcome|discharge|result|final|post[_ ]?op|readmi|death|mortal/i.test(c))flags.leak.push(c)});
+const rule=[['const','Constant variables',4,3],['card','High-cardinality fields',3,3],['mixed','Numeric/categorical confusion',4,3],['imp','Impossible values',5,4],['out','Outlier-heavy variables (>5% by IQR rule)',2,5],['date','Date problems',4,3],['imb','Class imbalance (>90% one class)',2,3],['case','Inconsistent category spelling/case',3,3]];
+rule.forEach(([k,l,p,mx])=>{if(flags[k].length)add(Math.min(p*flags[k].length,p*mx),`${l}: ${flags[k].map(esc).join(', ')}`)});
+const score=Math.max(0,Math.round(100-pen)),col=score>=85?'#10b981':score>=65?'#f59e0b':'#ef4444';
+return head('48 · Dataset Detective','Automated, rule-based inspection of the loaded dataset.')+`<div class="grid"><div class="card span-4"><div class="kpi" style="color:${col}">${score}/100</div><div class="kpi-label">DATA QUALITY SCORE</div><div class="progress" style="margin-top:8px"><div style="width:${score}%"></div></div></div><div class="card span-8"><b>Reasons for deductions</b>${items.length?items.map(i=>`<div class="issue">−${i[0].toFixed(1)} · ${i[1]}</div>`).join(''):'<div class="good">No deductions from the implemented checks.</div>'}<div class="issue">ℹ️ Potential identifiers: ${flags.id.length?flags.id.map(esc).join(', '):'none detected'}. Check before analysis; identifiers are not scored.</div><div class="issue">ℹ️ Potential leakage cannot be proven without a defined prediction target. Names suggesting outcome-derived fields: ${flags.leak.length?flags.leak.map(esc).join(', '):'none'}.</div></div></div>`};
+
+/* ---- 50 Research Quality Checker ---- */
+const QC=[['obj','Objectives are specific and stated'],['asm','Assumptions of the chosen method were checked'],['eci','Effect sizes and confidence intervals are reported'],['vis','Visualization suits the question (see Chart Doctor)'],['lim','Limitations are acknowledged'],['rep','Methods and data handling are reproducible'],['cau','Causal language is avoided unless the design supports it']];
+R.qa=()=>{const mp=rows.length?(()=>{let m=0;columns.forEach(c=>rows.forEach(r=>{if(String(r[c]??'').trim()==='')m++}));return m/(rows.length*columns.length)*100})():null;
+const auto=[['Study question',V6.st.rq?2:0,V6.st.rq?'Population and outcome entered in the Research Question Builder.':'Build a question in module 31.'],['Study design',V6.st.design?2:1,V6.st.design?'Design considered: '+V6.st.design+'.':'Use the Study Design Advisor (module 32).'],['Sample size',V6.st.ss?2:1,V6.st.ss?'A sample-size calculation was run (verify externally).':'No sample-size justification recorded (module 38).'],['Missing data',mp===null?1:mp<5?2:mp<20?1:0,mp===null?'Load data to assess missingness.':`${mp.toFixed(1)}% of cells are missing. Report and handle missing data explicitly.`],['Variables',rows.length?(V6.done.vars?2:1):1,'Review roles and scales in module 33.']];
+const man=QC.map(([k,l])=>{const ok=V6.st['qa_'+k];return[l,ok?2:(k==='cau'?0:1),ok?'Confirmed by you.':(k==='cau'?'Critical until you confirm no unsupported causal claims.':'Not yet confirmed.')]});
+const all=auto.concat(man),ic=['🔴','🟡','🟢'],cnt=[0,1,2].map(s=>all.filter(x=>x[1]===s).length);
+return head('50 · Research Quality Checker','Self-audit combining automatic checks with your confirmations. Nothing is sent anywhere.')+`<div class="grid"><div class="card span-4"><h3>Confirm</h3>${QC.map(([k,l])=>`<label class="option"><input type="checkbox" data-a="qaTick" data-k="${k}" ${V6.st['qa_'+k]?'checked':''}> ${l}</label>`).join('')}</div><div class="card span-8"><b>🟢 ${cnt[2]} strong · 🟡 ${cnt[1]} need attention · 🔴 ${cnt[0]} critical</b>${all.map(x=>`<div class="issue">${ic[x[1]]} <b>${x[0]}</b> — ${x[2]}</div>`).join('')}</div></div>`};
+A.qaTick=b=>{V6.st['qa_'+b.dataset.k]=b.checked;done('qa');const k=cur;show(k)};
+
+/* ---- AI-style analyst (rule-based) ---- */
+const GL={regression:['Regression draws the best-fitting line (or surface) relating a predictor to an outcome. The slope tells how much the outcome changes for one unit of the predictor.','Linear regression minimises squared residuals. β is the mean change in Y per unit X, holding other terms fixed; R² is variance explained. Assumes linearity, independence, constant variance and roughly normal residuals.'],'p-value':['A p-value says how surprising your data would be if there were truly no effect. It does not say how big or important the effect is.','The p-value is the probability of data at least this extreme under the null hypothesis. It is not the probability the null is true.'],confidence:['A confidence interval is a range of values that fits your data reasonably well; a narrow one means a more precise estimate.','A 95% CI is produced by a procedure that captures the true parameter in 95% of repeated samples; it expresses precision.'],'t-test':['The t-test asks whether two group averages differ more than chance would explain.','Welch t-test compares two independent means without assuming equal variances; assumes independence and approximately normal data or large n.'],anova:['ANOVA checks whether three or more group averages are not all the same.','One-way ANOVA compares between-group to within-group variance (F); assumes independence, normality and similar variances; post-hoc tests locate differences.'],'chi-square':['Chi-square checks whether two categorical variables are linked.','Compares observed with expected counts under independence; needs adequate expected counts (≥5 in most cells), otherwise use Fisher exact.'],correlation:['Correlation measures how closely two numbers move together, from −1 to +1.','Pearson r measures linear association; Spearman ρ measures monotonic association. It does not show causation.'],sensitivity:['Sensitivity is the share of people with the disease that the test correctly flags.','Sensitivity = TP/(TP+FN); specificity = TN/(TN+FP). Predictive values depend on prevalence.'],confound:['A confounder is a third factor linked to both the exposure and the outcome that can distort their relationship.','A confounder is associated with exposure and outcome and is not on the causal pathway; handle by design (randomisation, restriction, matching) or analysis (stratification, regression).'],'odds ratio':['An odds ratio compares the odds of an outcome between two groups; 1 means no difference.','OR = odds in exposed / odds in unexposed; approximates the risk ratio only when the outcome is rare.'],'effect size':['Effect size is how big a difference or relationship is, regardless of sample size.','Standardised (Cohen d, r) or unstandardised measures of magnitude; report with a CI.'],power:['Power is the chance your study detects a real effect of a given size.','Power = 1 − β; depends on α, sample size, variability and effect size.']};
+const aiSay=h=>{const b=$('v6chatbox');if(b){b.insertAdjacentHTML('beforeend',`<div class="chat-msg chat-ai"><b>Analyst:</b> ${h}</div>`);b.scrollTop=b.scrollHeight}};
+const tok=s=>String(s).toLowerCase().replace(/([a-z])([A-Z])/g,'$1 $2').split(/[^a-z0-9]+/).filter(x=>x.length>2).map(x=>x.slice(0,4));
+function findCols(q){const qt=tok(q.replace(/([a-z])([A-Z])/g,'$1 $2')),ql=q.toLowerCase();return columns.filter(c=>{const w=tok(c.replace(/([a-z])([A-Z])/g,'$1 $2'));return ql.includes(c.toLowerCase())||w.some(x=>qt.includes(x))})}
+const ctx=()=>{const D=analysisRows();return`<span class="mini">Context: ${D.length} of ${rows.length} rows${D.length<rows.length?' (filters active)':''}.</span><br>`};
+const CANT='I cannot determine that from the currently loaded data.';
+function analystAnswer(q){const x=q.toLowerCase();if(/beginner|like i am|simple|eli5/.test(x))V6.lvl='beginner';else if(/exam/.test(x))V6.lvl='exam';else if(/research/.test(x))V6.lvl='research';const lv=V6.lvl==='beginner'?0:1;
+const gk=Object.keys(GL).find(k=>x.includes(k))||(/coefficient|slope/.test(x)?'regression':/\bmean\b.*\bwhat|what.*\bci\b/.test(x)?'confidence':'');
+if(/explain|what is|what does|define|meaning|mean\b.*(coefficient|p)/.test(x)&&gk||(/like i am|beginner/.test(x)&&V6.last)){const k=gk||V6.last;V6.last=k;let extra='';if(k==='regression'&&rows.length){const rr=$('regResult');if(rr&&rr.textContent.trim())extra=`<br><span class="mini">Your current Regression tab output: ${esc(rr.textContent.trim().slice(0,220))}</span>`}return`<b>${k}</b> (${V6.lvl==='beginner'?'beginner':V6.lvl} level): ${GL[k][lv]}${extra}`}
+if(/caus/.test(x))return'Not from association alone. Causal claims need a design that supports them (temporality, control of confounding, plausibility). Say "associated with" unless the design (e.g. randomisation) justifies more.';
+if(/viva/.test(x))return'Be ready to answer: What does one row represent? What is the study design? What are the main biases? Why this test, and what are its assumptions? What does the CI tell you? Use Research + AI Tutor → Viva Mode to practise. <button class="btn secondary" data-a="goViva">Open Viva Mode</button>';
+if(/what test|which test|choose a test|help me choose/.test(x)){const f=findCols(q),t=types();if(rows.length&&f.length>=2){const a=f[0],b=f[1],an=t.numeric.includes(a),bn=t.numeric.includes(b);return ctx()+(an&&bn?`${esc(a)} and ${esc(b)} are both numeric: consider correlation or simple linear regression (Spearman if non-linear).`:an||bn?`One numeric and one categorical variable: t-test for two groups, ANOVA for three or more.`:`Both categorical: chi-square test (Fisher exact if counts are sparse).`)}return'It depends on the outcome type and predictor type — use the Statistical Analysis Planner (module 34) or name two columns, e.g. "which test for WaitTime and Department?".'}
+if(!rows.length)return'Load a dataset first (try “Load hospital sample” in the Lab). I can answer conceptual questions without data, such as “Explain regression”.';
+const t=types(),f=findCols(q),fn=f.filter(c=>t.numeric.includes(c)),fc=f.filter(c=>t.categorical.includes(c)),D=analysisRows();
+if(/missing|blank|null/.test(x)){const m=columns.map(c=>[c,D.filter(r=>String(r[c]??'').trim()==='').length]).sort((a,b)=>b[1]-a[1]);return ctx()+(m[0][1]?`${esc(m[0][0])} has the most missing values (${m[0][1]} of ${D.length}).`:'No missing values found in the current rows.')}
+if(/quality|clean/.test(x))return`Open the Dataset Detective for a scored audit. <button class="btn secondary" data-a="goDet">Open Dataset Detective</button>`;
+if(/how many|rows|columns|variables|size/.test(x))return ctx()+`${columns.length} variables: ${t.numeric.length} numeric, ${t.categorical.length} categorical, ${t.dates.length} date-like.`;
+if(/trend|over time/.test(x)){const m=fn[0]||t.numeric[0],dc=t.dates[0];if(!dc)return CANT+' No date-like column was detected.';const mp={};D.forEach(r=>{const d=new Date(r[dc]);if(!isNaN(d)&&isNum(r[m])){const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');(mp[k]=mp[k]||[]).push(num(r[m]))}});const ks=Object.keys(mp).sort();if(ks.length<2)return CANT+' Fewer than two time periods are available.';const ys=ks.map(k=>avg(mp[k])),n=ys.length,xs=ys.map((_,i)=>i),mx=avg(xs),my=avg(ys),sl=xs.reduce((s,v,i)=>s+(v-mx)*(ys[i]-my),0)/xs.reduce((s,v)=>s+(v-mx)**2,0),mn=Math.min(...ys),mxv=Math.max(...ys),pts=ys.map((y,i)=>`${(i/(n-1)*200).toFixed(1)},${(36-(y-mn)/((mxv-mn)||1)*32).toFixed(1)}`).join(' ');return ctx()+`Monthly mean of ${esc(m)} (by ${esc(dc)}, ${n} months): ${ys[0].toFixed(1)} → ${ys[n-1].toFixed(1)}; average change ${sl.toFixed(2)} per month. <svg viewBox="0 0 200 40" style="width:200px;min-height:0;height:40px"><polyline fill="none" stroke="#2563eb" stroke-width="2" points="${pts}"/></svg><br><span class="mini">Descriptive trend only${!fn.length?' (measure assumed: '+esc(m)+')':''}.</span>`}
+if(/relationship|related|association|correlat/.test(x)){if(fn.length<2)return CANT+' Name two numeric columns, e.g. “relationship between WaitTime and PatientSatisfaction”.';const P=D.filter(r=>isNum(r[fn[0]])&&isNum(r[fn[1]])),a=P.map(r=>num(r[fn[0]])),b=P.map(r=>num(r[fn[1]])),n=a.length;if(n<4)return CANT+' Too few complete pairs.';const r=pearson(a,b),z=Math.atanh(Math.max(-.999999,Math.min(.999999,r))),se=1/Math.sqrt(n-3);return ctx()+`${esc(fn[0])} and ${esc(fn[1])}: Pearson r = ${r.toFixed(2)} (95% CI ${Math.tanh(z-1.96*se).toFixed(2)} to ${Math.tanh(z+1.96*se).toFixed(2)}), n = ${n}. This suggests a ${Math.abs(r)>=.7?'strong':Math.abs(r)>=.4?'moderate':'weak'} ${r>0?'positive':'negative'} linear association; it does not show causation.`}
+if(/highest|lowest|most|least|top|maximum|minimum|which/.test(x)){const gc=fc[0]||t.categorical.find(c=>new Set(rows.map(r=>r[c])).size<=20),m=fn[0]||t.numeric[0];if(!gc||!m)return CANT;const mp={};D.forEach(r=>{if(isNum(r[m]))(mp[r[gc]]=mp[r[gc]]||[]).push(num(r[m]))});const a=Object.entries(mp).map(([k,v])=>[k,avg(v),v.reduce((s,y)=>s+y,0),v.length]);if(!a.length)return CANT;const lo=/lowest|least|minimum/.test(x),s=a.sort((p,q)=>lo?p[1]-q[1]:q[1]-p[1])[0],st=[...a].sort((p,q)=>lo?p[2]-q[2]:q[2]-p[2])[0];return ctx()+`By ${esc(gc)}, ${lo?'lowest':'highest'} mean ${esc(m)}: <b>${esc(s[0])}</b> (${s[1].toFixed(2)}, n=${s[3]}). By total: <b>${esc(st[0])}</b> (${fmt(st[2])}). Descriptive only; check group sizes and uncertainty.`}
+if(/average|mean|median|typical/.test(x)){const m=fn[0]||t.numeric[0],v=nv(m);if(!v.length)return CANT;return ctx()+`${esc(m)}: mean ${avg(v).toFixed(2)}, SD ${sd(v).toFixed(2)}, median ${quantile(v,.5).toFixed(2)} (n=${v.length})${fn.length?'':'. <span class="mini">(No column named; I used '+esc(m)+'.)</span>'}`}
+if(/chart|visual|plot|graph/.test(x)){const why={bar:'compares categories',line:'shows change over ordered time',donut:'shows part-to-whole for few categories',scatter:'shows the relationship between two numeric variables',bubble:'shows magnitude across many categories',heatmap:'shows patterns across two dimensions'}[currentVisual]||'matches the selected question';return`The current visual (${esc(currentVisual)}) ${why}. Question type: ${esc(currentQuestion)}. Check that the axis starts honestly and categories are sorted. <button class="btn secondary" data-a="goWhy">Open Chart Doctor</button>`}
+if(/pattern|insight|important|interpret/.test(x)){const pr=[];const nc=t.numeric.slice(0,8);for(let i=0;i<nc.length;i++)for(let j=i+1;j<nc.length;j++){const P=D.filter(r=>isNum(r[nc[i]])&&isNum(r[nc[j]]));if(P.length>=6)pr.push([nc[i],nc[j],pearson(P.map(r=>num(r[nc[i]])),P.map(r=>num(r[nc[j]]))),P.length])}pr.sort((a,b)=>Math.abs(b[2])-Math.abs(a[2]));return ctx()+(pr.length?`Strongest observed linear associations: ${pr.slice(0,3).map(p=>`${esc(p[0])}–${esc(p[1])} (r=${p[2].toFixed(2)}, n=${p[3]})`).join('; ')}. These suggest patterns worth investigating; they are not evidence of causation, and many pairs were screened.`:CANT)}
+return CANT+' Try: “What is the average WaitTime?”, “Which Department has the highest Cases?”, “Explain regression”.'}
+const CHIPS=['What is the average?','Find important patterns','Explain regression','Check data quality','Help me choose a test','Prepare me for viva','Can I say X causes Y?','Explain like a beginner'];
+const chipHTML=()=>CHIPS.map(c=>`<button class="v6chip" data-a="chip" data-q="${esc(c)}">💬 ${esc(c)}</button>`).join('');
+R.chat=()=>head('AI-style Analyst','Rule-based intent detection over your dataset, filters, current results and built-in teaching notes. Not a language model.')+`<div class="v6chips">${chipHTML()}</div><div class="chat-box" id="v6chatbox" role="log" aria-live="polite"></div><div class="btnrow"><input id="v6chatin" type="text" aria-label="Ask the analyst" placeholder="Ask about your data or a concept…" style="flex:1;min-width:220px"><button class="btn primary" data-a="ask">Ask</button></div>`;
+A.ask=()=>{const i=$('v6chatin'),q=i.value.trim();if(!q)return;i.value='';const b=$('v6chatbox');b.insertAdjacentHTML('beforeend',`<div class="chat-msg chat-user"><b>You:</b> ${esc(q)}</div>`);aiSay(analystAnswer(q));done('chat')};
+A.chip=b=>{const q=b.dataset.q;if($('v6chatbox')){$('v6chatin').value=q;A.ask()}else{addChat('user',esc(q));addChat('ai',analystAnswer(q))}};
+A.goViva=()=>go('research','viva');A.goDet=()=>{go('v6');show('det')};A.goWhy=()=>go('insights','doctor');
+
+/* ---- wiring ---- */
+A.reset=()=>{show(cur);toast('Module reset')};A.sample=()=>$('sample').click();
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b||b.type==='checkbox')return;const f=A[b.dataset.a];if(f)f(b)});
+document.addEventListener('change',e=>{const b=e.target;if(b.type==='checkbox'&&b.dataset.a&&A[b.dataset.a])A[b.dataset.a](b)});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='v6chatin')A.ask()});
+$('v6tabs').innerHTML=MODS.map(m=>`<button role="tab" class="research-tab" data-m="${m[0]}">${m[1]}</button>`).join('');
+$('v6tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(b.dataset.m)});
+$$('#v6road button').forEach(b=>b.addEventListener('click',()=>{const[s,t]=b.dataset.go.split(':');go(s,t||'');if(s==='v6')show(t||'rq')}));
+// inject chips into the V5 chat tab and mark V5 tabs as visited for progress
+const vc=$('chatBox');if(vc)vc.insertAdjacentHTML('beforebegin',`<div class="v6chips">${chipHTML()}</div>`);
+const _ss=setSection;setSection=function(id){_ss(id);if(id==='v6'&&!cur)show('rq')};
+const _r2=refreshHealthcareAnalytics;refreshHealthcareAnalytics=function(){_r2();setTimeout(()=>{if(['vars','det','qa'].includes(cur)&&!$('v6').classList.contains('hidden'))show(cur)},0)};
+$('v6dark').addEventListener('click',()=>{const on=document.body.classList.toggle('dark');try{localStorage.setItem('medviz_v6_dark',on?'1':'0')}catch(e){}});
+try{if(localStorage.getItem('medviz_v6_dark')==='1')document.body.classList.add('dark')}catch(e){}
+updProg();
+
+})();
+</script>
+</body>
+</html>
